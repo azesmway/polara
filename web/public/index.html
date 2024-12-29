@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>МЕТОД САМОПОЗНАНИЯ ПОЛАРА</title>
+  <meta name="description" content="Авторский метод Евгении Кошкиной" />
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+  <meta name="theme-color" content="#ffffff" />
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+  <meta property="og:title" content="МЕТОД САМОПОЗНАНИЯ ПОЛАРА"/>
+  <meta property="og:description" content="Авторский метод Евгении Кошкиной"/>
+  <meta property="og:image" content="/images/logo.jpg"/>
+  <meta property="og:locale" content="ru_RU" />
+  <style>
+      html,
+      body {
+          height: 100%;
+          margin: 0;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+          'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+          sans-serif;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+          overflow: hidden;
+      }
+      a {
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+          'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+          sans-serif;
+      }
+      #root {
+          display: flex;
+          height: 100%;
+      }
+      div.rect {
+          width: 50px;
+          height: 50px;
+
+          background: yellow;
+      }
+  </style>
+</head>
+<body>
+<noscript> You need to enable JavaScript to run this app. </noscript>
+<div id="root"></div>
+<script>
+  setTimeout(() => {
+    var rect1 = document.getElementById('rotate-img-1');
+    var rect2 = document.getElementById('rotate-img-2');
+    var tx1 = 1, angle1 = 0, tx2 = 1, angle2 = 0, currentAngleImg1, currentAngleImg2;
+
+    function getAngleToRADImg1(){
+      if(angle1 === 2360){
+        angle1 = 0;
+      }
+
+      return angle1-- * Math.PI / 1180;
+    }
+
+    function getAngleToRADImg2(){
+      if(angle2 === 2360){
+        angle2 = 0;
+      }
+
+      return angle2++ * Math.PI / 1180;
+    }
+
+    function update(){
+      currentAngleImg1 = getAngleToRADImg1();
+      currentAngleImg2 = getAngleToRADImg2();
+
+      rect1.style.transform = 'matrix(' + Math.cos(currentAngleImg1) + ',' + Math.sin(currentAngleImg1) + ',' + -Math.sin(currentAngleImg1) + ',' + Math.cos(currentAngleImg1) + ',' + tx1 + ',' + tx1 + ')'
+      rect2.style.transform = 'matrix(' + Math.cos(currentAngleImg2) + ',' + Math.sin(currentAngleImg2) + ',' + -Math.sin(currentAngleImg2) + ',' + Math.cos(currentAngleImg2) + ',' + tx2 + ',' + tx2 + ')'
+
+      window.requestAnimationFrame(update);
+    }
+
+    update();
+  }, 1000)
+</script>
+</body>
+</html>
