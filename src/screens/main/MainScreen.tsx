@@ -10,9 +10,14 @@
  */
 
 // @flow
+import AppHeader from 'components/header'
+import MainBlock from 'components/main'
+import MethodBlock from 'components/method'
+import OtherBlock from 'components/other'
+import PurposeBlock from 'components/purpose'
 import { useStyles } from 'hooks'
 import React from 'react'
-import { View } from 'react-native'
+import { ScrollView } from 'react-native'
 import R from 'res'
 
 import stylesConfig from './MainScreen.styles'
@@ -25,7 +30,17 @@ const T = R.lang
 const MainScreen = ({}: MainScreenProps) => {
   const styles = useStyles(stylesConfig)
 
-  return <></>
+  return (
+    <>
+      <AppHeader />
+      <ScrollView alwaysBounceHorizontal={false} alwaysBounceVertical={false} bounces={false} showsVerticalScrollIndicator={false}>
+        <MainBlock />
+        <MethodBlock />
+        <PurposeBlock />
+        <OtherBlock />
+      </ScrollView>
+    </>
+  )
 }
 
 export default MainScreen

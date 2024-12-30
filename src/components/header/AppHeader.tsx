@@ -11,7 +11,7 @@
 
 // @flow
 import { useStyles } from 'hooks'
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { Dimensions, TouchableOpacity, View } from 'react-native'
 import R from 'res'
 
