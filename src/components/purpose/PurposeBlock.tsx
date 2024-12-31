@@ -19,15 +19,16 @@ import R from 'res'
 
 import stylesConfig from './PurposeBlock.styles'
 
-type PurposeBlockProps = {}
+type PurposeBlockProps = {
+  setCollapsed: any
+  collapsed: boolean
+}
 
 const T = R.lang
 
-// eslint-disable-next-line no-empty-pattern
-const PurposeBlock = ({}: PurposeBlockProps) => {
+const PurposeBlock = ({ collapsed, setCollapsed }: PurposeBlockProps) => {
   const styles = useStyles(stylesConfig)
   const [screenSize, setScreenSize] = useState({ width: Dimensions.get('window').width, height: Dimensions.get('window').height })
-  const [collapsed, setCollapsed] = useState(true)
 
   const updateDimensions = () => {
     // @ts-ignore

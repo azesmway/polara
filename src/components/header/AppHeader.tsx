@@ -13,7 +13,10 @@
 import { useStyles } from 'hooks'
 import React, { useEffect, useState } from 'react'
 import { Dimensions, TouchableOpacity, View } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
 import R from 'res'
+import { RootState } from 'store'
+import { setShowMenu } from 'store/data'
 
 import stylesConfig from './AppHeader.styles'
 
@@ -24,6 +27,8 @@ const T = R.lang
 // eslint-disable-next-line no-empty-pattern
 const AppHeader = ({}: AppHeaderProps) => {
   const styles = useStyles(stylesConfig)
+  const dispatch = useDispatch()
+  const showMenu = useSelector((state: RootState) => state.app.showMenu)
   const [screenSize, setScreenSize] = useState({ width: Dimensions.get('window').width, height: Dimensions.get('window').height })
 
   const updateDimensions = () => {
@@ -132,7 +137,7 @@ const AppHeader = ({}: AppHeaderProps) => {
           borderBottomWidth: 0.5,
           borderBottomColor: 'rgb(48,64,96)'
         }}>
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity onPress={() => dispatch(setShowMenu(!showMenu))}>
           <svg width="34" height="34" viewBox="0 0 34 34" fill="#fff" xmlns="http://www.w3.org/2000/svg">
             <rect x="3" y="8" width="28" height="2" fill="white" />
             <rect x="3" y="16" width="28" height="2" fill="white" />

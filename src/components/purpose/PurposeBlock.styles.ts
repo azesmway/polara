@@ -23,7 +23,6 @@ export default createStyles((colors, fonts) => ({
     borderBottomColor: 'rgb(48,64,96)'
   },
   mainViewInSide: {
-    // height: '430@s',
     marginHorizontal: '7@s',
     borderLeftWidth: 0.5,
     borderLeftColor: 'rgb(48,64,96)',

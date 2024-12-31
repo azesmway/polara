@@ -12,11 +12,13 @@
 // @flow
 import { useStyles } from 'hooks'
 import React, { useEffect, useState } from 'react'
-import { Dimensions, Image, Platform, ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import { Dimensions, TouchableOpacity, View } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 import { s } from 'react-native-size-matters'
+import { useDispatch, useSelector } from 'react-redux'
 import R from 'res'
-import { MoreButton, PayButton } from 'res/images'
+import { RootState } from 'store'
+import { setModalFullPay } from 'store/data'
 
 import stylesConfig from './MainBlock.styles'
 
@@ -27,6 +29,9 @@ const T = R.lang
 // eslint-disable-next-line no-empty-pattern
 const MainBlock = ({}: MainBlockProps) => {
   const styles = useStyles(stylesConfig)
+  const dispatch = useDispatch()
+  const modalFullPay = useSelector((state: RootState) => state.app.modalFullPay)
+
   const [screenSize, setScreenSize] = useState({ width: Dimensions.get('window').width, height: Dimensions.get('window').height })
 
   const updateDimensions = () => {
@@ -101,7 +106,7 @@ const MainBlock = ({}: MainBlockProps) => {
             {/*  <Text style={{ color: '#fff', fontSize: 24, textAlign: 'center' }}>{'ПРОЕКТ НАХОДИТСЯ\nВ РАЗРАБОТКЕ!'}</Text>*/}
             {/*</View>*/}
             <View style={{ width: '100%', alignItems: 'center', justifyContent: 'center' }}>
-              <TouchableOpacity onPress={() => {}}>
+              <TouchableOpacity onPress={() => dispatch(setModalFullPay(!modalFullPay))}>
                 <svg width="244" height="48" viewBox="0 0 244 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <g filter="url(#filter0_b_82_5408)">
                     <rect width="244" height="48" rx="24" fill="white" fill-opacity="0.1" />
