@@ -3,13 +3,23 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 interface IApp {
   categories: any[]
   showMenu: boolean
-  modalFullPay: boolean
+  modalReservation: boolean
+  modalMaster: boolean
+  modalMore: {
+    viewModal: boolean
+    typeModal: string
+  }
 }
 
 const initialState: IApp = {
   categories: [],
   showMenu: false,
-  modalFullPay: false
+  modalReservation: false,
+  modalMaster: false,
+  modalMore: {
+    viewModal: false,
+    typeModal: ''
+  }
 }
 
 export const appSlice = createSlice({
@@ -22,12 +32,18 @@ export const appSlice = createSlice({
     setShowMenu: (state, action: PayloadAction<boolean>) => {
       state.showMenu = action.payload
     },
-    setModalFullPay: (state, action: PayloadAction<boolean>) => {
-      state.modalFullPay = action.payload
+    setModalReservation: (state, action: PayloadAction<boolean>) => {
+      state.modalReservation = action.payload
+    },
+    setModalMaster: (state, action: PayloadAction<boolean>) => {
+      state.modalMaster = action.payload
+    },
+    setModalMore: (state, action: PayloadAction<any>) => {
+      state.modalMore = action.payload
     }
   }
 })
 
-export const { setAppCategories, setShowMenu, setModalFullPay } = appSlice.actions
+export const { setAppCategories, setShowMenu, setModalReservation, setModalMaster, setModalMore } = appSlice.actions
 
 export default appSlice.reducer

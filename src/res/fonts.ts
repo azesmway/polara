@@ -2,5 +2,14 @@ import { Platform } from 'react-native'
 
 export default Platform.select({
   ios: {},
-  android: {}
+  android: {},
+  web: {
+    Forum: {
+      regular: 'Forum'
+    },
+    Inter: {
+      regular: 'InterRegular',
+      bold: 'InterBold'
+    }
+  }
 })

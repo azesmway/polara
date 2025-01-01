@@ -18,12 +18,12 @@ export default createStyles((colors, fonts) => ({
   },
   mainView: {
     width: '100%',
-    // height: '430@s',
+    height: '1240@s',
     borderBottomWidth: 0.5,
     borderBottomColor: 'rgb(48,64,96)'
   },
   mainViewInSide: {
-    // height: '430@s',
+    height: '1240@s',
     marginHorizontal: '7@s',
     borderLeftWidth: 0.5,
     borderLeftColor: 'rgb(48,64,96)',

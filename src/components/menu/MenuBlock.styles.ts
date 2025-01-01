@@ -15,5 +15,11 @@ import { createStyles } from 'utils/createStyles'
 export default createStyles((colors, fonts) => ({
   container: {
     flex: 1
+  },
+  menu: {
+    fontFamily: fonts?.Forum?.regular,
+    fontSize: '20@s',
+    color: 'white',
+    textTransform: 'uppercase'
   }
 }))

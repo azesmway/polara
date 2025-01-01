@@ -29,9 +29,16 @@ export default createStyles((colors, fonts) => ({
     borderRightWidth: 0.5,
     borderRightColor: 'rgb(53,76,94)'
   },
-  title: {
-    marginTop: '40@s',
+  titleView: {
+    marginTop: '30@s',
     alignItems: 'center'
+  },
+  title: {
+    fontFamily: fonts?.Forum?.regular,
+    textTransform: 'uppercase',
+    fontSize: '24@s',
+    color: 'white',
+    textAlign: 'center'
   },
   textView: {
     marginTop: '20@s',

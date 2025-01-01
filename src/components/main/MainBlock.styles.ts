@@ -30,5 +30,24 @@ export default createStyles((colors, fonts) => ({
     borderLeftColor: 'rgb(48,64,96)',
     borderRightWidth: 0.5,
     borderRightColor: 'rgb(53,76,94)'
+  },
+  title: {
+    fontFamily: fonts?.Forum?.regular,
+    textTransform: 'uppercase',
+    fontSize: '24@s',
+    color: 'white',
+    textAlign: 'center'
+  },
+  buttonBG: {
+    width: '200@s',
+    height: '36@s',
+    background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0.10) 100%), linear-gradient(163deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.20) 100%)',
+    borderRadius: 100,
+    border: '1px rgba(245.65, 245.65, 245.65, 0.20) solid',
+    backdropFilter: 'blur(48.60px)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 10,
+    display: 'inline-flex'
   }
 }))

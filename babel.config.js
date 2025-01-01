@@ -17,6 +17,13 @@ module.exports = {
       }
     ],
     'react-native-reanimated/plugin',
-    ['@babel/plugin-transform-private-methods', { loose: true }]
+    ['@babel/plugin-transform-private-methods', { loose: true }],
+    'react-native-classname-to-style',
+    [
+      'react-native-platform-specific-extensions',
+      {
+        extensions: ['css']
+      }
+    ]
   ]
 }

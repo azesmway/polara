@@ -16,12 +16,12 @@ import { createStyles } from 'utils/createStyles'
 export default createStyles((colors, fonts) => ({
   gradient: {
     width: Dimensions.get('window').width - 40,
-    height: '420@s',
+    height: '450@s',
     borderRadius: '10@s'
   },
   modal: {
     width: Dimensions.get('window').width - 40,
-    height: '420@s',
+    height: '450@s',
     borderWidth: 0.5,
     borderColor: 'rgb(48,64,96)',
     borderRadius: '10@s'
@@ -39,8 +39,9 @@ export default createStyles((colors, fonts) => ({
     backgroundColor: 'transparent'
   },
   textInput: {
+    fontFamily: fonts?.Inter?.regular,
     height: '34@s',
-    fontSize: '14@s',
+    fontSize: '12@s',
     color: '#fff',
     borderBottomWidth: 0.5,
     borderBottomColor: 'rgb(48,64,96)',
@@ -49,7 +50,9 @@ export default createStyles((colors, fonts) => ({
     margin: 0
   },
   text: {
-    fontSize: '13@s',
-    color: 'white'
+    fontFamily: fonts?.Inter?.regular,
+    fontSize: '12@s',
+    color: 'white',
+    textAlign: 'center'
   }
 }))

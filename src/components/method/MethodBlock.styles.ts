@@ -10,16 +10,16 @@
  */
 
 // @flow
+import { Dimensions } from 'react-native'
 import { createStyles } from 'utils/createStyles'
 
 export default createStyles((colors, fonts) => ({
   gradient: {
-    width: '100%',
-    height: '430@s'
+    width: '100%'
   },
   mainView: {
     width: '100%',
-    height: '430@s',
+    height: '930@s',
     borderBottomWidth: 0.5,
     borderBottomColor: 'rgb(48,64,96)'
   },
@@ -43,5 +43,15 @@ export default createStyles((colors, fonts) => ({
     textAlign: 'justify',
     fontSize: 15,
     color: 'white'
+  },
+  fotoView: {
+    marginTop: '20@s',
+    alignItems: 'center'
+  },
+  foto: {
+    width: Dimensions.get('window').width - 40,
+    aspectRatio: 3 / 4,
+    borderWidth: 0.5,
+    borderColor: 'rgba(245.65, 245.65, 245.65, 0.20)'
   }
 }))
