@@ -13,7 +13,7 @@
 import { BlurView } from 'expo-blur'
 import { useStyles } from 'hooks'
 import React, { useEffect, useState } from 'react'
-import {Dimensions, Modal, Text, TouchableOpacity, View} from 'react-native'
+import { Dimensions, Modal, Text, TouchableOpacity, View } from 'react-native'
 import { s } from 'react-native-size-matters'
 import { useDispatch } from 'react-redux'
 import R from 'res'
@@ -182,15 +182,36 @@ const MenuBlock = ({ showMenu }: MenuBlockProps) => {
             <AppMenu />
           </View>
           <View style={{ marginTop: s(60), alignItems: 'center' }}>
-            <TouchableOpacity onPress={() => {}}>
+            <TouchableOpacity
+              onPress={() => {
+                dispatch(setShowMenu(!showMenu))
+                setTimeout(() => {
+                  // @ts-ignore
+                  document.location.href = '#method'
+                }, 100)
+              }}>
               <Text style={styles.menu}>{'О методе'}</Text>
             </TouchableOpacity>
             <View style={{ height: s(MENU_HEIGHT) }} />
-            <TouchableOpacity onPress={() => {}}>
+            <TouchableOpacity
+              onPress={() => {
+                dispatch(setShowMenu(!showMenu))
+                setTimeout(() => {
+                  // @ts-ignore
+                  document.location.href = '#courses'
+                }, 100)
+              }}>
               <Text style={styles.menu}>{'Курсы'}</Text>
             </TouchableOpacity>
             <View style={{ height: s(MENU_HEIGHT) }} />
-            <TouchableOpacity onPress={() => {}}>
+            <TouchableOpacity
+              onPress={() => {
+                dispatch(setShowMenu(!showMenu))
+                setTimeout(() => {
+                  // @ts-ignore
+                  document.location.href = '#master'
+                }, 100)
+              }}>
               <Text style={styles.menu}>{'Мастер классы'}</Text>
             </TouchableOpacity>
           </View>

@@ -12,9 +12,11 @@
 // @flow
 import { useStyles } from 'hooks'
 import React, { useEffect, useState } from 'react'
-import { Dimensions, View } from 'react-native'
+import { Dimensions, TouchableOpacity, View } from 'react-native'
 import { s } from 'react-native-size-matters'
+import { useDispatch } from 'react-redux'
 import R from 'res'
+import { setModalMore } from 'store/data'
 
 import stylesConfig from './PolicyBlock.styles'
 
@@ -25,6 +27,7 @@ const T = R.lang
 // eslint-disable-next-line no-empty-pattern
 const PolicyBlock = ({}: PolicyBlockProps) => {
   const styles = useStyles(stylesConfig)
+  const dispatch = useDispatch()
   const [screenSize, setScreenSize] = useState({ width: Dimensions.get('window').width, height: Dimensions.get('window').height })
 
   const updateDimensions = () => {
@@ -51,18 +54,28 @@ const PolicyBlock = ({}: PolicyBlockProps) => {
           <View
             // @ts-ignore
             style={styles.title}>
-            <div
-              style={{
-                opacity: 0.8,
-                color: 'white',
-                fontSize: s(12),
-                fontFamily: 'InterRegular',
-                fontWeight: '300',
-                textDecoration: 'underline',
-                wordWrap: 'break-word'
+            <TouchableOpacity
+              onPress={() => {
+                dispatch(
+                  setModalMore({
+                    viewModal: true,
+                    typeModal: 'policy'
+                  })
+                )
               }}>
-              Политика конфиденциальности
-            </div>
+              <div
+                style={{
+                  opacity: 0.8,
+                  color: 'white',
+                  fontSize: s(12),
+                  fontFamily: 'InterRegular',
+                  fontWeight: '300',
+                  textDecoration: 'underline',
+                  wordWrap: 'break-word'
+                }}>
+                Политика конфиденциальности
+              </div>
+            </TouchableOpacity>
             <div
               style={{
                 marginTop: s(5),

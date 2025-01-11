@@ -34,7 +34,7 @@ export default createStyles((colors, fonts) => ({
   inputMask: {
     marginTop: '6@s',
     height: '30@s',
-    fontSize: '14@s',
+    fontSize: '12@s',
     color: '#fff',
     backgroundColor: 'transparent'
   },
@@ -44,7 +44,6 @@ export default createStyles((colors, fonts) => ({
     fontSize: '12@s',
     color: '#fff',
     borderBottomWidth: 0.5,
-    borderBottomColor: 'rgb(48,64,96)',
     backgroundColor: 'transparent',
     padding: 0,
     margin: 0

@@ -15,16 +15,16 @@ import { createStyles } from 'utils/createStyles'
 export default createStyles((colors, fonts) => ({
   gradient: {
     width: '100%',
-    height: '630@s'
+    height: '430@s'
   },
   mainView: {
     width: '100%',
-    height: '630@s',
+    height: '430@s',
     borderBottomWidth: 0.5,
     borderBottomColor: 'rgb(48,64,96)'
   },
   mainViewInSide: {
-    height: '630@s',
+    height: '430@s',
     marginHorizontal: '7@s',
     borderLeftWidth: 0.5,
     borderLeftColor: 'rgb(48,64,96)',

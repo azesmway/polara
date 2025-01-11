@@ -1,0 +1,17 @@
+diff --git a/node_modules/react-native-mmkv/package.json b/node_modules/react-native-mmkv/package.json
+index 101226d..8643dd7 100644
+--- a/node_modules/react-native-mmkv/package.json
++++ b/node_modules/react-native-mmkv/package.json
+@@ -2,9 +2,9 @@
+   "name": "react-native-mmkv",
+   "version": "3.2.0",
+   "description": "The fastest key/value storage for React Native. ~30x faster than AsyncStorage! Works on Android, iOS and Web.",
+-  "main": "lib/commonjs/index",
+-  "module": "lib/module/index",
+-  "types": "lib/typescript/src/index.d.ts",
++  "main": "src/index",
++  "module": "src/index",
++  "types": "src/index",
+   "react-native": "src/index",
+   "source": "src/index",
+   "files": [

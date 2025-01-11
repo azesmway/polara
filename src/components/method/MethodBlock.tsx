@@ -87,6 +87,13 @@ const MethodBlock = ({}: MethodBlockProps) => {
                   fontWeight: '400',
                   wordWrap: 'break-word'
                 }}>
+                <img
+                  src="images/foto.jpg"
+                  width={s(110)}
+                  height={s(135)}
+                  // @ts-ignore
+                  style={{ float: 'left', margin: '0 10px 10px 0' }}
+                />
                 Приветствую всех, кто задается вопросами самопознания и кому интересна тайна кода своего рождения! Дата рождения - это трехкодичная система ко всему проявленному и непроявленному в
                 нас, это ключ к нашей жизни и инструкция, выданная нам при рождении.
                 <br />
@@ -104,11 +111,11 @@ const MethodBlock = ({}: MethodBlockProps) => {
                 <br />И начнём мы с наших Предназначений.
               </div>
             </View>
-            <View
-              // @ts-ignore
-              style={styles.fotoView}>
-              <Image source={require('assets/images/foto.jpg')} style={styles.foto} />
-            </View>
+            {/*<View*/}
+            {/*  // @ts-ignore*/}
+            {/*  style={styles.fotoView}>*/}
+            {/*  <Image source={require('assets/images/foto.jpg')} style={styles.foto} />*/}
+            {/*</View>*/}
           </View>
         </View>
       </LinearGradient>

@@ -64,15 +64,15 @@ module.exports = argv => {
     output: {
       clean: true,
       path: path.resolve(appDirectory, 'web/dist'),
-      filename: '[name].[chunkhash].js',
-      sourceMapFilename: '[name].[chunkhash].map',
-      chunkFilename: '[id].[chunkhash].js'
+      filename: '[name].js',
+      sourceMapFilename: '[name].map',
+      chunkFilename: '[id].js'
     },
     resolve: {
       extensions: ['.web.js', '.js', '.web.ts', '.ts', '.web.jsx', '.jsx', '.web.tsx', '.tsx'],
       alias: {
-        'react-native-svg': 'react-native-svg-web',
         'react-native': 'react-native-web',
+        'react-native-svg': 'react-native-svg-web',
         'react-native-linear-gradient': 'react-native-web-linear-gradient',
       }
     },

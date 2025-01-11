@@ -120,26 +120,13 @@ const PurposeBlock = ({ collapsed, setCollapsed }: PurposeBlockProps) => {
                   style={{
                     width: '100%',
                     textAlign: 'center',
-                    color: 'rgba(243, 243, 243, 0.40)',
-                    fontSize: 20,
-                    fontFamily: 'Forum',
-                    fontWeight: '400',
-                    textDecoration: 'line-through',
-                    wordWrap: 'break-word'
-                  }}>
-                  45 000 руб
-                </div>
-                <div
-                  style={{
-                    width: '100%',
-                    textAlign: 'center',
                     color: '#F3F3F3',
                     fontSize: 38,
                     fontFamily: 'Forum',
                     fontWeight: '400',
                     wordWrap: 'break-word'
                   }}>
-                  38 990 руб
+                  45 000 руб
                 </div>
               </View>
               <View
@@ -260,7 +247,7 @@ const PurposeBlock = ({ collapsed, setCollapsed }: PurposeBlockProps) => {
                     <View style={{ height: s(10) }} />
                     <AppButton
                       type={'transparent'}
-                      title={'Подробнее'}
+                      title={'Программа модуля'}
                       press={() =>
                         dispach(
                           setModalMore({
@@ -375,7 +362,7 @@ const PurposeBlock = ({ collapsed, setCollapsed }: PurposeBlockProps) => {
                     <View style={{ height: s(10) }} />
                     <AppButton
                       type={'transparent'}
-                      title={'Подробнее'}
+                      title={'Программа модуля'}
                       press={() =>
                         dispach(
                           setModalMore({
@@ -443,6 +430,33 @@ const PurposeBlock = ({ collapsed, setCollapsed }: PurposeBlockProps) => {
                       Духовное предназначение – это точка духовной гармонии, оно раскрывает смысл того, для чего вы сюда пришли, в этот мир, в эту материю. Именно оно приносит смысл в вашу жизнь!
                     </div>
                   </View>
+                  <View style={{ marginTop: s(14), alignItems: 'center' }}>
+                    <div
+                      style={{
+                        width: '92%',
+                        height: s(26),
+                        borderRadius: 100,
+                        border: '1px rgba(245.65, 245.65, 245.65, 0.20) solid',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        gap: 10,
+                        display: 'inline-flex'
+                      }}>
+                      <div
+                        style={{
+                          flex: '1 1 0',
+                          opacity: 0.9,
+                          textAlign: 'center',
+                          color: '#F6F6F6',
+                          fontSize: s(12),
+                          fontFamily: 'Forum',
+                          fontWeight: '400',
+                          wordWrap: 'break-word'
+                        }}>
+                        Необходимо пройти 1 и 2 модуль
+                      </div>
+                    </div>
+                  </View>
                   <View style={{ marginTop: s(20), alignItems: 'center' }}>
                     <div
                       style={{
@@ -462,7 +476,7 @@ const PurposeBlock = ({ collapsed, setCollapsed }: PurposeBlockProps) => {
                     <View style={{ height: s(10) }} />
                     <AppButton
                       type={'transparent'}
-                      title={'Подробнее'}
+                      title={'Программа модуля'}
                       press={() =>
                         dispach(
                           setModalMore({

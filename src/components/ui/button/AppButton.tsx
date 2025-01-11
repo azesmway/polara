@@ -22,16 +22,17 @@ type AppButtonProps = {
   type: string
   title: string
   press: any
+  disabled?: boolean
 }
 
 const T = R.lang
 
-const AppButton = ({ type, title, press }: AppButtonProps) => {
+const AppButton = ({ type, title, press, disabled = false }: AppButtonProps) => {
   const styles = useStyles(stylesConfig)
 
   if (type === 'gradient') {
     return (
-      <TouchableOpacity onPress={press}>
+      <TouchableOpacity onPress={press} disabled={disabled}>
         <div
           style={{
             width: s(200),

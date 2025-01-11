@@ -13,7 +13,7 @@
 import AppButton from 'components/ui/button'
 import { useStyles } from 'hooks'
 import React, { useEffect, useState } from 'react'
-import { Dimensions, Linking, Text, View } from 'react-native'
+import { Dimensions, Text, View } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 import { s } from 'react-native-size-matters'
 import { useDispatch } from 'react-redux'
@@ -61,7 +61,7 @@ const MainBlock = ({}: MainBlockProps) => {
             style={styles.mainViewInSide}>
             <View style={{ width: '100%', height: 240, alignItems: 'center', justifyContent: 'center' }}>
               {/*<Image source={LogoCenter} style={{ width: 220, height: 220 }} /> id="rotate-rect"*/}
-              <View style={{ position: 'absolute', top: 22, marginLeft: 5 }}>
+              <View style={{ position: 'absolute', top: 22 }}>
                 <img id="rotate-img-3" src="images/bg.svg" width="71" height="188" />
               </View>
               <View style={{ position: 'absolute', top: 30 }}>
@@ -72,44 +72,36 @@ const MainBlock = ({}: MainBlockProps) => {
               </View>
             </View>
             <View style={{ width: '100%', alignItems: 'center', justifyContent: 'center' }}>
-              <Text style={styles.title}>{'Метод самопознания Полара'}</Text>
+              <Text style={[styles.title, { fontSize: screenSize.width < 540 ? s(24) : s(18) }]}>{'Метод самопознания Полара'}</Text>
             </View>
-            <View style={{ marginTop: 20, alignItems: 'center' }}>
-              <iframe
-                width={screenSize.width < 540 ? screenSize.width - 40 : 720}
-                height={screenSize.width < 540 ? screenSize.height / 4 : 405}
-                src="https://rutube.ru/play/embed/60364b4ac2cdef561c0cb3bfa5ddf26a/"
-                frameBorder="0"
-                allow="clipboard-write; autoplay"
-                // @ts-ignore
-                webkitAllowFullScreen
-                mozallowfullscreen
-                allowFullScreen
-              />
-            </View>
-            <View style={{ height: s(60) }} />
-            {/*<View style={{ width: '100%', alignItems: 'center' }}>*/}
-            {/*  <Text style={{ color: '#fff', fontSize: 24, textAlign: 'center' }}>{'ПРОЕКТ НАХОДИТСЯ\nВ РАЗРАБОТКЕ!'}</Text>*/}
-            {/*</View>*/}
-            <View style={{ width: '100%', alignItems: 'center', justifyContent: 'center' }}>
-              <AppButton
-                type={'gradient'}
-                title={'Приобрести курс'}
-                press={() =>
-                  // @ts-ignore
-                  (document.location.href = '#methodPay')
-                }
-              />
-              <View style={{ height: s(10) }} />
-              <AppButton
-                type={'transparent'}
-                title={'Подробнее о методе'}
-                press={() =>
-                  // @ts-ignore
-                  (document.location.href = '#method')
-                }
-              />
-            </View>
+            {screenSize.width > 540 ? (
+              <View style={{ marginTop: 30, width: '100%', alignItems: 'center' }}>
+                <Text style={{ color: '#fff', fontSize: 24, textAlign: 'center', fontFamily: 'KreadonRegular' }}>{'ПРОЕКТ НАХОДИТСЯ\nВ РАЗРАБОТКЕ!'}</Text>
+              </View>
+            ) : (
+              <>
+                <View style={{ height: s(60) }} />
+                <View style={{ width: '100%', alignItems: 'center', justifyContent: 'center' }}>
+                  <AppButton
+                    type={'gradient'}
+                    title={'Приобрести курс'}
+                    press={() =>
+                      // @ts-ignore
+                      (document.location.href = '#methodPay')
+                    }
+                  />
+                  <View style={{ height: s(10) }} />
+                  <AppButton
+                    type={'transparent'}
+                    title={'Подробнее о методе'}
+                    press={() =>
+                      // @ts-ignore
+                      (document.location.href = '#method')
+                    }
+                  />
+                </View>
+              </>
+            )}
           </View>
         </View>
       </LinearGradient>

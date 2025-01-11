@@ -2,17 +2,16 @@
  * @format
  */
 
+import fontForum from 'assets/fonts/Forum/Forum-Regular.ttf'
+import interBold from 'assets/fonts/Inter/Inter-Bold.otf'
+import interRegular from 'assets/fonts/Inter/Inter-Regular.otf'
+import kreadonRegular from 'assets/fonts/Kreadon/Kreadon-Regular.ttf'
 import React from 'react'
 import { createRoot } from 'react-dom/client'
 import { AppRegistry, Platform } from 'react-native'
 import iconFontAw from 'react-native-vector-icons/Fonts/FontAwesome.ttf'
 import iconFontM from 'react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf'
 import iconFont from 'react-native-vector-icons/Fonts/MaterialIcons.ttf'
-
-import fontForum from 'assets/fonts/Forum/Forum-Regular.ttf'
-import interRegular from 'assets/fonts/Inter/Inter-Regular.otf'
-import interBold from 'assets/fonts/Inter/Inter-Bold.otf'
-import kreadonRegular from 'assets/fonts/Kreadon/Kreadon-Regular.ttf'
 
 import App from './src/App'
 

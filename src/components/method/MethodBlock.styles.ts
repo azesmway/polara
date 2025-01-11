@@ -19,12 +19,12 @@ export default createStyles((colors, fonts) => ({
   },
   mainView: {
     width: '100%',
-    height: '930@s',
+    height: '530@s',
     borderBottomWidth: 0.5,
     borderBottomColor: 'rgb(48,64,96)'
   },
   mainViewInSide: {
-    height: '430@s',
+    height: '530@s',
     marginHorizontal: '7@s',
     borderLeftWidth: 0.5,
     borderLeftColor: 'rgb(48,64,96)',
@@ -32,7 +32,7 @@ export default createStyles((colors, fonts) => ({
     borderRightColor: 'rgb(53,76,94)'
   },
   title: {
-    marginTop: '40@s',
+    marginTop: '30@s',
     alignItems: 'center'
   },
   textView: {

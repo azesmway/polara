@@ -13,13 +13,13 @@
 import { useStyles } from 'hooks'
 import React, { useEffect, useState } from 'react'
 import { Dimensions, TouchableOpacity, View } from 'react-native'
+import { s } from 'react-native-size-matters'
 import { useDispatch, useSelector } from 'react-redux'
 import R from 'res'
 import { RootState } from 'store'
 import { setShowMenu } from 'store/data'
 
 import stylesConfig from './AppHeader.styles'
-import {s} from "react-native-size-matters";
 
 type AppHeaderProps = {}
 
@@ -108,7 +108,7 @@ const AppHeader = ({}: AppHeaderProps) => {
     return (
       <View
         style={{
-          width: 210,
+          width: screenSize.width < 540 ? 210 : '80%',
           height: 90,
           alignItems: 'flex-start',
           justifyContent: 'center',
@@ -118,7 +118,7 @@ const AppHeader = ({}: AppHeaderProps) => {
         <div
           style={{
             color: '#F6F6F6',
-            fontSize: s(16),
+            fontSize: screenSize.width < 540 ? s(16) : 22,
             fontFamily: 'KreadonRegular',
             fontWeight: '400',
             textTransform: 'uppercase',
@@ -143,7 +143,7 @@ const AppHeader = ({}: AppHeaderProps) => {
           borderBottomWidth: 0.5,
           borderBottomColor: 'rgb(48,64,96)'
         }}>
-        <TouchableOpacity onPress={() => dispatch(setShowMenu(!showMenu))}>
+        <TouchableOpacity onPress={() => (screenSize.width < 540 ? dispatch(setShowMenu(!showMenu)) : {})}>
           <svg width="34" height="34" viewBox="0 0 34 34" fill="#fff" xmlns="http://www.w3.org/2000/svg">
             <rect x="3" y="8" width="28" height="2" fill="white" />
             <rect x="3" y="16" width="28" height="2" fill="white" />

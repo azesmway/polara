@@ -10,7 +10,6 @@
  */
 
 // @flow
-import SpiritualBlock from 'components/more/blocks/spiritual.tsx'
 import { BlurView } from 'expo-blur'
 import { useStyles } from 'hooks'
 import React, { useEffect, useRef } from 'react'
@@ -20,9 +19,14 @@ import { useDispatch } from 'react-redux'
 import R from 'res'
 import { setModalMore } from 'store/data'
 
+import AzesmBlock from './blocks/azesm'
+import ChakrasBlock from './blocks/chakras'
 import GenericBlock from './blocks/generic'
+import MissionBlock from './blocks/mission'
 import PersonalBlock from './blocks/personal'
+import PolicyBlock from './blocks/policy'
 import PurposeBlock from './blocks/purpose'
+import SpiritualBlock from './blocks/spiritual.tsx'
 import stylesConfig from './MoreModal.styles'
 
 type MoreModalProps = {
@@ -38,7 +42,7 @@ const MoreModal = ({ modalView, modalType }: MoreModalProps) => {
   const scrollRef = useRef(null)
 
   useEffect(() => {
-    if ((modalType === 'purpose' || modalType === 'generic') && scrollRef && scrollRef.current) {
+    if ((modalType === 'purpose' || modalType === 'generic' || modalType === 'policy') && scrollRef && scrollRef.current) {
       setTimeout(() => {
         // @ts-ignore
         scrollRef.current.scrollTo({
@@ -50,6 +54,33 @@ const MoreModal = ({ modalView, modalType }: MoreModalProps) => {
     }
   }, [])
 
+  let heightModal
+
+  switch (modalType) {
+    case 'personal':
+      heightModal = s(580)
+
+      break
+    case 'spiritual':
+      heightModal = s(680)
+
+      break
+    case 'сhakras':
+      heightModal = s(580)
+
+      break
+    case 'mission':
+      heightModal = s(420)
+
+      break
+    case 'azesm':
+      heightModal = s(250)
+
+      break
+    default:
+      heightModal = Dimensions.get('window').height - 30
+  }
+
   return (
     <Modal visible={modalView} transparent={true} onDismiss={() => dispatch(setModalMore(!modalView))}>
       <BlurView intensity={40} tint={'dark'} style={{ flex: 1 }}>
@@ -59,13 +90,17 @@ const MoreModal = ({ modalView, modalType }: MoreModalProps) => {
               backgroundColor: '#fff',
               margin: s(10),
               borderRadius: s(10),
-              height: modalType === 'personal' ? s(550) : modalType === 'spiritual' ? s(650) : Dimensions.get('window').height - 30
+              height: heightModal
             }}>
             <ScrollView ref={scrollRef} showsVerticalScrollIndicator={false} scrollEnabled={modalType !== 'personal' && modalType !== 'spiritual'}>
               {modalType === 'purpose' && <PurposeBlock modalView={modalView} />}
               {modalType === 'personal' && <PersonalBlock modalView={modalView} />}
               {modalType === 'generic' && <GenericBlock modalView={modalView} />}
               {modalType === 'spiritual' && <SpiritualBlock modalView={modalView} />}
+              {modalType === 'сhakras' && <ChakrasBlock modalView={modalView} />}
+              {modalType === 'mission' && <MissionBlock modalView={modalView} />}
+              {modalType === 'azesm' && <AzesmBlock modalView={modalView} />}
+              {modalType === 'policy' && <PolicyBlock modalView={modalView} />}
             </ScrollView>
             <View
               // @ts-ignore

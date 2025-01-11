@@ -21,29 +21,68 @@ import { TextInput as PTextInput } from 'react-native-paper'
 import { s } from 'react-native-size-matters'
 import { useDispatch } from 'react-redux'
 import R from 'res'
-import { setModalMaster, setModalReservation } from 'store/data'
+import { API_TELEGRAM, TOKEN_TELEGRAM, USER_TELEGRAM } from 'res/const.ts'
+import { setModalMaster, setModalMore, setModalReservation } from 'store/data'
 
 import stylesConfig from './ModalBlock.styles'
 
 type ModalBlockProps = {
   modalView: boolean
   modalType: string
+  modalName: string
 }
 
 const T = R.lang
 
-const ModalBlock = ({ modalView, modalType }: ModalBlockProps) => {
+const ModalBlock = ({ modalView, modalType, modalName }: ModalBlockProps) => {
   const styles = useStyles(stylesConfig)
   const dispatch = useDispatch()
   const [name, setName] = useState('')
   const [telegram, setTelegram] = useState('')
   const [phone, setPhone] = useState('')
+  const [error, setError] = useState(false)
 
   const dismissModal = modalType === 'reservation' ? setModalReservation : setModalMaster
   const txt = modalType === 'reservation' ? 'Забронировать' : 'Записаться'
 
+  const sendMessage = (typeMsg: string) => {
+    if (name === '' || telegram === '' || phone === '') {
+      setError(true)
+
+      return
+    }
+
+    const telegramNik = Array.from(telegram)[0] !== '@' ? '@' + telegram : telegram
+    const msg = encodeURI(typeMsg + modalName + '\n' + 'Имя: ' + name + '\n' + 'Ник в telegram: ' + telegramNik + '\n' + 'Телефон: +' + phone)
+    const url = API_TELEGRAM + TOKEN_TELEGRAM + '/sendMessage?chat_id=' + USER_TELEGRAM + '&text=' + msg
+
+    fetch(url).then(response => {
+      if (response.ok && response.status === 200) {
+        dispatch(
+          dismissModal({
+            modalView: false,
+            typeModal: ''
+          })
+        )
+      } else {
+        // @ts-ignore
+        alert('Ошибка! Не удалось отправить сообщение!')
+      }
+    })
+  }
+
   return (
-    <Modal visible={modalView} transparent={true} onDismiss={() => dispatch(dismissModal(!modalView))}>
+    <Modal
+      visible={modalView}
+      transparent={true}
+      onDismiss={() =>
+        dispatch(
+          dismissModal({
+            modalView: false,
+            typeModal: ''
+          })
+        )
+      }>
       <BlurView intensity={40} tint={'dark'} style={{ flex: 1, alignItems: 'center', paddingTop: s(60) }}>
         <LinearGradient
           start={{ x: 0.0, y: 0.9 }}
@@ -58,7 +97,15 @@ const ModalBlock = ({ modalView, modalType }: ModalBlockProps) => {
             <View
               // @ts-ignore
               style={styles.close}>
-              <TouchableOpacity onPress={() => dispatch(dismissModal(!modalView))}>
+              <TouchableOpacity
+                onPress={() =>
+                  dispatch(
+                    dismissModal({
+                      modalView: false,
+                      typeModal: ''
+                    })
+                  )
+                }>
                 <svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <g opacity="0.5">
                     <path
@@ -132,11 +179,38 @@ const ModalBlock = ({ modalView, modalType }: ModalBlockProps) => {
               </div>
             </View>
             <View style={{ marginTop: s(30), marginHorizontal: s(20) }}>
-              <TextInput value={name} placeholder={'Имя *'} placeholderTextColor={'#9e9e9e'} style={styles.textInput} onChangeText={txt => setName(txt)} />
+              <TextInput
+                value={name}
+                placeholder={'Имя *'}
+                placeholderTextColor={error && name === '' ? '#FF3535' : '#9e9e9e'}
+                style={[
+                  styles.textInput,
+                  {
+                    borderBottomColor: error && name === '' ? '#FF3535' : 'rgb(48,64,96)'
+                  }
+                ]}
+                onChangeText={text => setName(text)}
+              />
               <View style={{ height: s(5) }} />
-              <TextInput value={telegram} placeholder={'Ник в telegram *'} placeholderTextColor={'#9e9e9e'} style={styles.textInput} onChangeText={txt => setTelegram(txt)} />
+              <TextInput
+                value={telegram}
+                placeholder={'Ник в telegram *'}
+                placeholderTextColor={error && telegram === '' ? '#FF3535' : '#9e9e9e'}
+                style={[
+                  styles.textInput,
+                  {
+                    borderBottomColor: error && telegram === '' ? '#FF3535' : 'rgb(48,64,96)'
+                  }
+                ]}
+                onChangeText={text => setTelegram(text)}
+              />
               <PTextInput
-                style={styles.textInput}
+                style={[
+                  styles.textInput,
+                  {
+                    borderBottomColor: error && phone === '' ? '#FF3535' : 'rgb(48,64,96)'
+                  }
+                ]}
                 autoCapitalize={'none'}
                 autoCorrect={false}
                 render={props => {
@@ -153,7 +227,7 @@ const ModalBlock = ({ modalView, modalType }: ModalBlockProps) => {
                       autoCorrect={false}
                       keyboardType={'numeric'}
                       placeholder={'+7 (___) ___-__-___ *'}
-                      placeholderTextColor={'#9e9e9e'}
+                      placeholderTextColor={error && phone === '' ? '#FF3535' : '#9e9e9e'}
                     />
                   )
                 }}
@@ -162,13 +236,37 @@ const ModalBlock = ({ modalView, modalType }: ModalBlockProps) => {
             <View style={{ marginTop: s(20), marginHorizontal: s(20) }}>
               <Text style={styles.text}>
                 {'Нажимая на кнопку «' + txt + '»,\nя соглашаюсь с условиями '}
-                <TouchableOpacity onPress={() => {}}>
+                <TouchableOpacity
+                  onPress={() => {
+                    dispatch(
+                      setModalMore({
+                        viewModal: true,
+                        typeModal: 'policy'
+                      })
+                    )
+                  }}>
                   <Text style={[styles.text, { textDecoration: 'underline' }]}>{'политики конфиденциальности'}</Text>
                 </TouchableOpacity>
               </Text>
             </View>
             <View style={{ marginTop: s(40), alignItems: 'center' }}>
-              {modalType === 'reservation' ? <AppButton type={'gradient'} title={'Забронировать'} press={() => {}} /> : <AppButton type={'gradient'} title={'Записаться'} press={() => {}} />}
+              {modalType === 'reservation' ? (
+                <AppButton
+                  type={'gradient'}
+                  title={'Забронировать'}
+                  press={() => {
+                    sendMessage('ЗАБРОНИРОВАТЬ - ')
+                  }}
+                />
+              ) : (
+                <AppButton
+                  type={'gradient'}
+                  title={'Записаться'}
+                  press={() => {
+                    sendMessage('ЗАПИСАТЬСЯ - ')
+                  }}
+                />
+              )}
             </View>
           </View>
         </LinearGradient>

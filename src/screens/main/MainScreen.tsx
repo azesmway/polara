@@ -10,7 +10,7 @@
  */
 
 // @flow
-import FooterBlock from 'components/footer'
+// import FooterBlock from 'components/footer'
 import AppHeader from 'components/header'
 import MainBlock from 'components/main'
 import MasterBlock from 'components/master'
@@ -22,15 +22,17 @@ import OtherBlock from 'components/other'
 import PolicyBlock from 'components/policy'
 import PurposeBlock from 'components/purpose'
 import QuestionBlock from 'components/question'
+import VideoBlock from 'components/video'
 import { useStyles } from 'hooks'
 import React, { useEffect, useState } from 'react'
 import { Dimensions, ScrollView, View } from 'react-native'
 import { s } from 'react-native-size-matters'
-import { useSelector } from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import R from 'res'
 import { RootState } from 'store'
 
 import stylesConfig from './MainScreen.styles'
+import {setForm} from "store/data";
 
 type MainScreenProps = {}
 
@@ -39,6 +41,7 @@ const T = R.lang
 // eslint-disable-next-line no-empty-pattern
 const MainScreen = ({}: MainScreenProps) => {
   const styles = useStyles(stylesConfig)
+  const dispatch = useDispatch()
   const showMenu = useSelector((state: RootState) => state.app.showMenu)
   const modalReservation = useSelector((state: RootState) => state.app.modalReservation)
   const modalMaster = useSelector((state: RootState) => state.app.modalMaster)
@@ -46,7 +49,7 @@ const MainScreen = ({}: MainScreenProps) => {
   const [collapsed, setCollapsed] = useState(true)
   const [screenSize, setScreenSize] = useState({ width: Dimensions.get('window').width, height: Dimensions.get('window').height })
 
-  const PURPOSE_HEIGHT = collapsed ? 490 : 1562
+  const PURPOSE_HEIGHT = collapsed ? 468 : 1586
 
   const updateDimensions = () => {
     // @ts-ignore
@@ -56,6 +59,15 @@ const MainScreen = ({}: MainScreenProps) => {
   useEffect(() => {
     // @ts-ignore
     window.addEventListener('resize', updateDimensions)
+
+    dispatch(
+      setForm({
+        name: '',
+        telegram: '',
+        phone: '',
+        question: ''
+      })
+    )
 
     // @ts-ignore
     return () => window.removeEventListener('resize', updateDimensions)
@@ -71,21 +83,27 @@ const MainScreen = ({}: MainScreenProps) => {
           <View style={{ height: s(PURPOSE_HEIGHT) }}>
             <PurposeBlock setCollapsed={setCollapsed} collapsed={collapsed} />
           </View>
-          <OtherBlock modalReservation={modalReservation} />
-          <MasterBlock modalMaster={modalMaster} />
+          <OtherBlock modalReservation={modalReservation.viewModal} />
+          <MasterBlock modalMaster={modalMaster.viewModal} />
+          <VideoBlock />
           <QuestionBlock />
-          <FooterBlock />
+          {/*<FooterBlock />*/}
           <PolicyBlock />
         </ScrollView>
         {showMenu && <MenuBlock showMenu={showMenu} />}
-        {modalReservation && <ModalBlock modalView={modalReservation} modalType={'reservation'} />}
-        {modalMaster && <ModalBlock modalView={modalMaster} modalType={'master'} />}
+        {modalReservation.viewModal ? <ModalBlock modalView={modalReservation.viewModal} modalType={'reservation'} modalName={modalReservation.typeModal} /> : <></>}
+        {modalMaster.viewModal && <ModalBlock modalView={modalMaster.viewModal} modalType={'master'} modalName={modalMaster.typeModal} />}
         {modalMore.viewModal && <MoreModal modalView={modalMore.viewModal} modalType={modalMore.typeModal} />}
       </>
     )
   }
 
-  return <></>
+  return (
+    <>
+      <AppHeader />
+      <MainBlock />
+    </>
+  )
 }
 
 export default MainScreen

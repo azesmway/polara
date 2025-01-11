@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { API_TELEGRAM, TOKEN_TELEGRAM, USER_TELEGRAM } from 'res/const'
 
 export const appApi = createApi({
   reducerPath: 'appApi',

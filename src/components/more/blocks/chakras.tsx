@@ -5,23 +5,11 @@ import { s } from 'react-native-size-matters'
 import { useDispatch } from 'react-redux'
 import { setModalMore } from 'store/data'
 
-const PersonalBlock = ({ modalView }: any) => {
+const ChakrasBlock = ({ modalView }: any) => {
   const dispatch = useDispatch()
 
   return (
     <View style={{ marginTop: s(40), paddingHorizontal: s(20) }}>
-      <div
-        style={{
-          width: '100%',
-          opacity: 0.6,
-          color: '#061A43',
-          fontSize: s(16),
-          fontFamily: 'Forum',
-          fontWeight: '400',
-          wordWrap: 'break-word'
-        }}>
-        1 модуль
-      </div>
       <div
         style={{
           marginTop: s(10),
@@ -32,7 +20,7 @@ const PersonalBlock = ({ modalView }: any) => {
           textTransform: 'uppercase',
           wordWrap: 'break-word'
         }}>
-        ЛИЧНОЕ ПРЕДНАЗНАЧЕНИЕ
+        Чакральная система
       </div>
       <div
         style={{
@@ -44,7 +32,7 @@ const PersonalBlock = ({ modalView }: any) => {
           fontWeight: '400',
           wordWrap: 'break-word'
         }}>
-        Описание модуля:
+        Описание курса:
       </div>
       <div
         style={{
@@ -58,8 +46,9 @@ const PersonalBlock = ({ modalView }: any) => {
           fontWeight: '400',
           wordWrap: 'break-word'
         }}>
-        Дата, месяц и год рождения – это коды Судьбы и определенные энергии созвучные с человеком. Они влияют на всю его жизнь и являются базой на протяжении всего пути на это воплощение, в
-        определенны период времени ставя задачи и помогая их решить.
+        Чакральная система имеет более, чем одно измерение - не только физическое, но и духовное. Чакры функционируют не только на физическом, психологическом и эмоциональном плане, но также имеют
+        более тонкие аспекты. И если система полноценна, то все остальное будет тоже в порядке, все восстанавливающие и целительные процессы будут автоматически запущены и не только на уроне
+        физического тела.
       </div>
       <div
         style={{
@@ -71,7 +60,7 @@ const PersonalBlock = ({ modalView }: any) => {
           fontWeight: '400',
           wordWrap: 'break-word'
         }}>
-        Программа блока:
+        Программа курса:
       </div>
       <div
         style={{
@@ -85,7 +74,7 @@ const PersonalBlock = ({ modalView }: any) => {
           wordWrap: 'break-word',
           paddingLeft: 10
         }}>
-        1. Четыре уровня предназначений человека
+        1. Что такое чакральная система
       </div>
       <div
         style={{
@@ -99,7 +88,7 @@ const PersonalBlock = ({ modalView }: any) => {
           wordWrap: 'break-word',
           paddingLeft: 10
         }}>
-        2. Расчет Личного предназначения
+        2. Как работаю чакры
       </div>
       <div
         style={{
@@ -113,7 +102,7 @@ const PersonalBlock = ({ modalView }: any) => {
           wordWrap: 'break-word',
           paddingLeft: 10
         }}>
-        3. Ключ Личного предназначения
+        3. Расчёт энергий по чакрам
       </div>
       <div
         style={{
@@ -127,7 +116,7 @@ const PersonalBlock = ({ modalView }: any) => {
           wordWrap: 'break-word',
           paddingLeft: 10
         }}>
-        4. Расшифровка 22 энергий (кодов Судьбы)
+        4. Анализ состояния чакральной системы
       </div>
       <div
         style={{
@@ -141,26 +130,12 @@ const PersonalBlock = ({ modalView }: any) => {
           wordWrap: 'break-word',
           paddingLeft: 10
         }}>
-        5. Проявление энергий в минусе
-      </div>
-      <div
-        style={{
-          marginTop: s(10),
-          width: '100%',
-          color: '#061A43',
-          fontSize: s(16),
-          fontFamily: 'Forum',
-          fontWeight: '400',
-          textTransform: 'uppercase',
-          wordWrap: 'break-word',
-          paddingLeft: 10
-        }}>
-        6. Расшифровка ключей Личного предназначения
+        5. Балансировка работы чакральной системы
       </div>
       <View style={{ marginVertical: s(30), alignItems: 'center' }}>
         <AppButton
           type={'more'}
-          title={'Приобрести модуль'}
+          title={'Приобрести курс'}
           press={() => {
             dispatch(setModalMore(!modalView))
           }}
@@ -170,4 +145,4 @@ const PersonalBlock = ({ modalView }: any) => {
   )
 }
 
-export default PersonalBlock
+export default ChakrasBlock

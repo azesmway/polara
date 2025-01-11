@@ -36,6 +36,18 @@ const GenericBlock = ({ modalView }: any) => {
       </div>
       <div
         style={{
+          marginTop: s(4),
+          width: '100%',
+          color: '#061A43',
+          fontSize: s(18),
+          fontFamily: 'Forum',
+          fontWeight: '400',
+          wordWrap: 'break-word'
+        }}>
+        Описание модуля:
+      </div>
+      <div
+        style={{
           marginTop: s(20),
           width: '100%',
           opacity: 0.8,

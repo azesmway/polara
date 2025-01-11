@@ -10,17 +10,20 @@
  */
 
 // @flow
+import AppButton from 'components/ui/button'
 import { useStyles } from 'hooks'
 import React, { useEffect, useState } from 'react'
-import { Dimensions, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Dimensions, Text, TouchableOpacity, View } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
-import MaskInput from 'react-native-mask-input'
-import { TextInput as PTextInput } from 'react-native-paper'
 import { s } from 'react-native-size-matters'
+import { useDispatch } from 'react-redux'
 import R from 'res'
+import { API_TELEGRAM, TOKEN_TELEGRAM, USER_TELEGRAM } from 'res/const.ts'
+import { setModalMore } from 'store/data'
 
+import QuestionForm from './form'
 import stylesConfig from './QuestionBlock.styles'
-import AppButton from "components/ui/button";
+import {store} from "store";
 
 type QuestionBlockProps = {}
 
@@ -29,11 +32,10 @@ const T = R.lang
 // eslint-disable-next-line no-empty-pattern
 const QuestionBlock = ({}: QuestionBlockProps) => {
   const styles = useStyles(stylesConfig)
+  const dispatch = useDispatch()
   const [screenSize, setScreenSize] = useState({ width: Dimensions.get('window').width, height: Dimensions.get('window').height })
-  const [name, setName] = useState('')
-  const [telegram, setTelegram] = useState('')
-  const [phone, setPhone] = useState('')
-  const [question, setQuestion] = useState('')
+  const [title, setTitle] = useState('Отправить')
+  const [error, setError] = useState(false)
 
   const updateDimensions = () => {
     // @ts-ignore
@@ -47,6 +49,33 @@ const QuestionBlock = ({}: QuestionBlockProps) => {
     // @ts-ignore
     return () => window.removeEventListener('resize', updateDimensions)
   }, [])
+
+  const sendMessage = () => {
+    const form = store.getState().app.form
+
+    if (form.name === '' || form.telegram === '' || form.phone === '' || form.question === '') {
+      setError(true)
+
+      return
+    }
+
+    const telegramNik = Array.from(form.telegram)[0] !== '@' ? '@' + form.telegram : form.telegram
+    const msg = encodeURI('ВОПРОС С САЙТА' + '\n' + 'Имя: ' + form.name + '\n' + 'Ник в telegram: ' + telegramNik + '\n' + 'Телефон: +' + form.phone + '\n' + 'Вопрос: +' + form.question)
+    const url = API_TELEGRAM + TOKEN_TELEGRAM + '/sendMessage?chat_id=' + USER_TELEGRAM + '&text=' + msg
+
+    fetch(url).then(response => {
+      if (response.ok && response.status === 200) {
+        setTitle('Сообщение отправлено')
+
+        setTimeout(() => {
+          setTitle('Отправить')
+        }, 10000)
+      } else {
+        // @ts-ignore
+        alert('Ошибка! Не удалось отправить сообщение!')
+      }
+    })
+  }
 
   const Question = ({ startY, endY, location1, location2, location3 }: any) => {
     return (
@@ -95,46 +124,34 @@ const QuestionBlock = ({}: QuestionBlockProps) => {
                 <br />с вами в ближайшее время
               </div>
             </View>
-            <View style={{ marginTop: s(30), marginHorizontal: s(20) }}>
-              <TextInput value={name} placeholder={'Имя *'} placeholderTextColor={'#9e9e9e'} style={styles.textInput} onChangeText={txt => setName(txt)} />
-              <View style={{ height: s(5) }} />
-              <TextInput value={telegram} placeholder={'Ник в telegram через @ *'} placeholderTextColor={'#9e9e9e'} style={styles.textInput} onChangeText={txt => setTelegram(txt)} />
-              <PTextInput
-                style={styles.textInput}
-                autoCapitalize={'none'}
-                autoCorrect={false}
-                render={props => {
-                  return (
-                    <MaskInput
-                      // @ts-ignore
-                      value={phone}
-                      onChangeText={(masked, unmasked) => {
-                        setPhone('7' + unmasked)
-                      }}
-                      mask={['+', '7', ' ', '(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/]}
-                      style={styles.inputMask}
-                      autoCapitalize={'none'}
-                      autoCorrect={false}
-                      keyboardType={'numeric'}
-                      placeholder={'+7 (___) ___-__-___ *'}
-                      placeholderTextColor={'#9e9e9e'}
-                    />
-                  )
-                }}
-              />
-              <View style={{ height: s(5) }} />
-              <TextInput value={question} placeholder={'Напишите вопрос'} placeholderTextColor={'#9e9e9e'} style={styles.textInput} onChangeText={txt => setQuestion(txt)} />
-            </View>
+            <QuestionForm error={error} />
             <View style={{ marginTop: s(20), marginHorizontal: s(20) }}>
               <Text style={styles.text}>
                 {'Нажимая на кнопку «Отправить сообщение», я соглашаюсь с условиями '}
-                <TouchableOpacity onPress={() => {}}>
+                <TouchableOpacity
+                  onPress={() => {
+                    dispatch(
+                      setModalMore({
+                        viewModal: true,
+                        typeModal: 'policy'
+                      })
+                    )
+                  }}>
                   <Text style={[styles.text, { textDecoration: 'underline' }]}>{'политики конфиденциальности'}</Text>
                 </TouchableOpacity>
               </Text>
             </View>
             <View style={{ marginTop: s(40), alignItems: 'center' }}>
-              <AppButton type={'gradient'} title={'Отправить'} press={() => {}} />
+              <AppButton
+                type={'gradient'}
+                title={title}
+                press={() => {
+                  if (title === 'Отправить') {
+                    sendMessage()
+                  }
+                }}
+                disabled={title !== 'Отправить'}
+              />
             </View>
           </View>
         </View>
