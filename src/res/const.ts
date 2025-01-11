@@ -29,5 +29,5 @@ export const CATEGORIES_NAME = [
 ]
 
 export const API_TELEGRAM = 'https://api.telegram.org/bot'
-export const TOKEN_TELEGRAM = '7562623058:AAEIOO86CbInF0x2IP8zyJP0_b96IRWnonA'
-export const USER_TELEGRAM = '1286863747'
+export const TOKEN_TELEGRAM = ''
+export const USER_TELEGRAM = ''
