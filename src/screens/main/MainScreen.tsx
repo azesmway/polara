@@ -22,17 +22,18 @@ import OtherBlock from 'components/other'
 import PolicyBlock from 'components/policy'
 import PurposeBlock from 'components/purpose'
 import QuestionBlock from 'components/question'
+import RotateImg from 'components/ui/rotate'
 import VideoBlock from 'components/video'
 import { useStyles } from 'hooks'
 import React, { useEffect, useState } from 'react'
 import { Dimensions, ScrollView, View } from 'react-native'
 import { s } from 'react-native-size-matters'
-import {useDispatch, useSelector} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import R from 'res'
 import { RootState } from 'store'
+import { setForm } from 'store/data'
 
 import stylesConfig from './MainScreen.styles'
-import {setForm} from "store/data";
 
 type MainScreenProps = {}
 
@@ -94,6 +95,7 @@ const MainScreen = ({}: MainScreenProps) => {
         {modalReservation.viewModal ? <ModalBlock modalView={modalReservation.viewModal} modalType={'reservation'} modalName={modalReservation.typeModal} /> : <></>}
         {modalMaster.viewModal && <ModalBlock modalView={modalMaster.viewModal} modalType={'master'} modalName={modalMaster.typeModal} />}
         {modalMore.viewModal && <MoreModal modalView={modalMore.viewModal} modalType={modalMore.typeModal} />}
+        <RotateImg />
       </>
     )
   }
@@ -102,6 +104,7 @@ const MainScreen = ({}: MainScreenProps) => {
     <>
       <AppHeader />
       <MainBlock />
+      <RotateImg />
     </>
   )
 }

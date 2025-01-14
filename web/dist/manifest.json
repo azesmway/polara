@@ -1,0 +1,18 @@
+{
+  "name": "МЕТОД САМОПОЗНАНИЯ ПОЛАРА",
+  "short_name": "POLARA",
+  "description": "Авторский метод Евгении Кошкиной",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "display": "standalone",
+  "orientation": "natural",
+  "lang": "ru",
+  "dir": "rtl",
+  "start_url": "/",
+  "prefer_related_applications": true
+}
