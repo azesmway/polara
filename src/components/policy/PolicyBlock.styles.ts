@@ -10,26 +10,32 @@
  */
 
 // @flow
+import { isMobile } from 'react-device-detect'
 import { createStyles } from 'utils/createStyles'
 
 export default createStyles((colors, fonts) => ({
   mainView: {
     width: '100%',
-    height: '70@s',
-    borderBottomWidth: 0.5,
-    borderBottomColor: 'rgb(48,64,96)',
-    backgroundColor: 'rgb(19,33,70)'
+    height: isMobile ? '50@s' : 50
   },
   mainViewInSide: {
-    height: '70@s',
-    marginHorizontal: '7@s',
+    height: isMobile ? '50@s' : 70,
     borderLeftWidth: 0.5,
     borderLeftColor: 'rgb(48,64,96)',
     borderRightWidth: 0.5,
     borderRightColor: 'rgb(53,76,94)'
   },
   title: {
-    marginTop: '20@s',
-    alignItems: 'center'
+    width: '50%',
+    height: '100%',
+    alignItems: 'flex-start',
+    justifyContent: 'center'
+  },
+  policy: {
+    height: '100%',
+    width: '50%',
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end',
+    textAlign: 'right'
   }
 }))

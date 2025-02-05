@@ -17,14 +17,9 @@ export default createStyles((colors, fonts) => ({
     width: '100%'
   },
   mainView: {
-    width: '100%',
-    height: '400@s',
-    borderBottomWidth: 0.5,
-    borderBottomColor: 'rgb(48,64,96)'
+    width: '100%'
   },
   mainViewInSide: {
-    height: '400@s',
-    marginHorizontal: '7@s',
     borderLeftWidth: 0.5,
     borderLeftColor: 'rgb(48,64,96)',
     borderRightWidth: 0.5,

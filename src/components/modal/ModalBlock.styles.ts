@@ -10,38 +10,39 @@
  */
 
 // @flow
+import { isMobile } from 'react-device-detect'
 import { Dimensions } from 'react-native'
 import { createStyles } from 'utils/createStyles'
 
 export default createStyles((colors, fonts) => ({
   gradient: {
-    width: Dimensions.get('window').width - 40,
-    height: '450@s',
+    width: isMobile ? Dimensions.get('window').width - 40 : Dimensions.get('window').width / 2,
+    // height: isMobile ? '450@s' : '200@s',
     borderRadius: '10@s'
   },
   modal: {
-    width: Dimensions.get('window').width - 40,
-    height: '450@s',
+    width: isMobile ? Dimensions.get('window').width - 40 : Dimensions.get('window').width / 2,
+    // height: isMobile ? '450@s' : '200@s',
     borderWidth: 0.5,
-    borderColor: 'rgb(48,64,96)',
+    borderColor: 'rgb(96,128,200)',
     borderRadius: '10@s'
   },
   close: {
     position: 'absolute',
-    top: '10@s',
-    right: '10@s'
+    top: isMobile ? '10@s' : '5@s',
+    right: isMobile ? '10@s' : '5@s'
   },
   inputMask: {
     marginTop: '6@s',
-    height: '30@s',
-    fontSize: '12@s',
+    height: isMobile ? '30@s' : '12@s',
+    fontSize: isMobile ? '12@s' : '5@s',
     color: '#fff',
     backgroundColor: 'transparent'
   },
   textInput: {
     fontFamily: fonts?.Inter?.regular,
-    height: '34@s',
-    fontSize: '12@s',
+    height: isMobile ? '34@s' : '12@s',
+    fontSize: isMobile ? '12@s' : '5@s',
     color: '#fff',
     borderBottomWidth: 0.5,
     backgroundColor: 'transparent',
@@ -50,7 +51,7 @@ export default createStyles((colors, fonts) => ({
   },
   text: {
     fontFamily: fonts?.Inter?.regular,
-    fontSize: '12@s',
+    fontSize: isMobile ? '12@s' : 16,
     color: 'white',
     textAlign: 'center'
   }

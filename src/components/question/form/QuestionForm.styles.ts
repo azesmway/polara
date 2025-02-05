@@ -10,13 +10,14 @@
  */
 
 // @flow
+import { isMobile } from 'react-device-detect'
 import { createStyles } from 'utils/createStyles'
 
 export default createStyles((colors, fonts) => ({
   textInput: {
-    height: '34@s',
+    height: isMobile ? '34@s' : 28,
     fontFamily: fonts?.Inter?.regular,
-    fontSize: '12@s',
+    fontSize: isMobile ? '12@s' : 16,
     color: '#fff',
     borderBottomWidth: 0.5,
     borderBottomColor: 'rgb(48,64,96)',
@@ -26,9 +27,9 @@ export default createStyles((colors, fonts) => ({
   },
   inputMask: {
     marginTop: '6@s',
-    height: '30@s',
+    height: isMobile ? '30@s' : 28,
     fontFamily: fonts?.Inter?.regular,
-    fontSize: '12@s',
+    fontSize: isMobile ? '12@s' : 16,
     color: '#fff',
     backgroundColor: 'transparent'
   }

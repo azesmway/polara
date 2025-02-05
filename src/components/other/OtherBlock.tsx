@@ -12,441 +12,413 @@
 // @flow
 import AppButton from 'components/ui/button'
 import { useStyles } from 'hooks'
-import React, { useEffect, useState } from 'react'
-import { Dimensions, View } from 'react-native'
-import LinearGradient from 'react-native-linear-gradient'
+import React, { useEffect, useMemo, useState } from 'react'
+import { isMobile, useMobileOrientation } from 'react-device-detect'
+import { Dimensions, useWindowDimensions, View } from 'react-native'
 import { s } from 'react-native-size-matters'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import R from 'res'
-import { setModalMore, setModalReservation } from 'store/data'
+import { RootState, store } from 'store'
+import { setBlocksY, setModalMore, setModalReservation } from 'store/data'
 
 import stylesConfig from './OtherBlock.styles'
 
 type OtherBlockProps = {
-  modalReservation: boolean
+  collapsed: boolean
 }
 
 const T = R.lang
 
-const OtherBlock = ({ modalReservation }: OtherBlockProps) => {
+const OtherBlock = ({ collapsed }: OtherBlockProps) => {
   const styles = useStyles(stylesConfig)
   const dispatch = useDispatch()
-  const [screenSize, setScreenSize] = useState({ width: Dimensions.get('window').width, height: Dimensions.get('window').height })
+  const [widthBlock, setWidthBlock] = useState(0)
+  const modalReservation = useSelector((state: RootState) => state.app.modalReservation)
+  const modalMaster = useSelector((state: RootState) => state.app.modalMaster)
+  const modalMore = useSelector((state: RootState) => state.app.modalMore)
 
-  const updateDimensions = () => {
-    // @ts-ignore
-    setScreenSize({ width: window.innerWidth, height: window.innerHeight })
-  }
+  const { isPortrait, isLandscape } = useMobileOrientation()
+  const { width } = useWindowDimensions()
 
   useEffect(() => {
     // @ts-ignore
-    window.addEventListener('resize', updateDimensions)
-
+    const controller1 = new ScrollMagic.Controller()
     // @ts-ignore
-    return () => window.removeEventListener('resize', updateDimensions)
-  }, [])
+    const revealElements = document.getElementsByClassName('anim1')
 
-  const Ellipse = ({ style }: any) => {
+    for (let i = 0; i < revealElements.length; i++) {
+      // @ts-ignore
+      new ScrollMagic.Scene({
+        triggerElement: revealElements[i], // y value not modified, so we can use element as trigger as well
+        offset: 10, // start a little later
+        triggerHook: 0.9
+      })
+        .setClassToggle(revealElements[i], 'visible') // add class toggle
+        // .addIndicators({ name: 'digit ' + (i + 1) }) // add indicators (requires plugin)
+        .addTo(controller1)
+    }
+  }, [collapsed, widthBlock, modalReservation, modalMaster, modalMore, width])
+
+  const Chakras = ({ widthChakras, height }: any) => {
+    const b = isMobile && isPortrait ? { height: height } : { width: widthChakras, marginHorizontal: 0, height: isMobile && isPortrait ? 460 : height }
+
     return (
-      <View style={{ position: 'absolute', ...style }}>
-        <svg width="4" height="4" viewBox="0 0 4 4" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M6.3573e-08 2C-3.29915e-08 0.89543 0.89543 -2.05427e-07 2 -3.01992e-07C3.10457 -3.98556e-07 4 0.89543 4 2C4 3.10457 3.10457 4 2 4C0.895431 4 1.60138e-07 3.10457 6.3573e-08 2Z"
-            fill="#F6F6F6"
+      <div id="other" className="digit5 anim1 polaraCSS">
+        <View
+          // @ts-ignore
+          style={[styles.block, b, { backgroundImage: `linear-gradient(135deg, transparent, rgba(12,25,58, 0.9) 50%, transparent)` }]}>
+          <View style={{ marginTop: s(5), alignItems: 'center' }}>
+            <div
+              style={{
+                marginTop: s(10),
+                width: '100%',
+                textAlign: 'center',
+                color: '#F3F3F3',
+                fontSize: 28,
+                fontFamily: 'KreadonRegular',
+                fontWeight: '330',
+                textTransform: 'uppercase',
+                wordWrap: 'break-word'
+              }}>
+              Чакральная
+              <br />
+              система
+            </div>
+          </View>
+          <View
+            // @ts-ignore
+            style={styles.textView}>
+            <div
+              style={{
+                width: '100%',
+                opacity: 0.8,
+                textAlign: 'justify',
+                color: 'white',
+                fontSize: 16,
+                fontFamily: 'InterRegular',
+                fontWeight: '400',
+                wordWrap: 'break-word'
+              }}>
+              Чакральная система имеет более, чем одно измерение - не только физическое, но и духовное. Чакры функционируют не только на физическом, психологическом и эмоциональном плане, но также
+              имеют более тонкие аспекты. И если система полноценна, то все остальное будет тоже в порядке, все восстанавливающие и целительные процессы будут автоматически запущены и не только на
+              уроне физического тела.
+            </div>
+          </View>
+          <View style={{ marginTop: s(22) }} />
+          <View style={{ position: 'absolute', bottom: 0, alignSelf: 'center', marginBottom: s(10) }}>
+            <AppButton type={'gradient'} title={'Приобрести курс'} press={() => {}} />
+            <View style={{ height: s(5) }} />
+            <AppButton
+              type={'transparent'}
+              title={'Подробнее'}
+              press={() =>
+                dispatch(
+                  setModalMore({
+                    viewModal: true,
+                    typeModal: 'сhakras'
+                  })
+                )
+              }
+            />
+          </View>
+          <View style={{ marginTop: s(10) }} />
+        </View>
+      </div>
+    )
+  }
+
+  const Mission = ({ widthMission, height }: any) => {
+    const b = isMobile && isPortrait ? { height: height } : { width: widthMission, marginHorizontal: 0, height: isMobile && isPortrait ? 460 : height }
+
+    return (
+      <div className="digit4 anim1">
+        <View
+          // @ts-ignore
+          style={[styles.block, b, { backgroundImage: `linear-gradient(35deg, transparent, rgba(12,25,58, 0.9) 50%, transparent)` }]}>
+          <View style={{ marginTop: s(5), alignItems: 'center' }}>
+            <div
+              style={{
+                marginTop: s(10),
+                width: '100%',
+                textAlign: 'center',
+                color: '#F3F3F3',
+                fontSize: 28,
+                fontFamily: 'KreadonRegular',
+                fontWeight: '330',
+                textTransform: 'uppercase',
+                wordWrap: 'break-word'
+              }}>
+              Миссия человека
+              <br />
+              12 ключей
+            </div>
+          </View>
+          <View
+            // @ts-ignore
+            style={styles.textView}>
+            <div
+              style={{
+                width: '100%',
+                opacity: 0.8,
+                textAlign: 'justify',
+                color: 'white',
+                fontSize: 16,
+                fontFamily: 'InterRegular',
+                fontWeight: '400',
+                wordWrap: 'break-word'
+              }}>
+              12 типов энергий, в которых закладываются врожденные основные качества человека, такие как набор глубинных принципов, таланты и задачи личности. Все эти энергии – это разные принципы
+              Мироздания, накопление определенных свойств за множество воплощений, а также проявленная индивидуальная основа (суть) личности на данное воплощение. Это мотивация, которой человек
+              руководствуется – для чего он делает что-то в этой жизни, а также стратегия и инструменты для реализации своей Миссии.
+            </div>
+          </View>
+          <View style={{ position: 'absolute', bottom: 0, alignSelf: 'center', marginBottom: s(10) }}>
+            <div
+              style={{
+                marginBottom: s(10),
+                width: '100%',
+                opacity: 0.8,
+                textAlign: 'center',
+                color: 'white',
+                fontSize: 16,
+                fontFamily: 'InterRegular',
+                fontWeight: '400',
+                wordWrap: 'break-word',
+                fontStyle: 'italic'
+              }}>
+              Курс находится в разработке
+            </div>
+            <AppButton
+              type={'gradient'}
+              title={'Забронировать'}
+              press={() => {
+                dispatch(
+                  setModalReservation({
+                    viewModal: true,
+                    typeModal: 'КУРС: Миссия человека - 12 ключей'
+                  })
+                )
+              }}
+            />
+            <View style={{ height: s(5) }} />
+            <AppButton
+              type={'transparent'}
+              title={'Подробнее'}
+              press={() =>
+                dispatch(
+                  setModalMore({
+                    viewModal: true,
+                    typeModal: 'mission'
+                  })
+                )
+              }
+            />
+          </View>
+          <View style={{ marginTop: s(10) }} />
+        </View>
+      </div>
+    )
+  }
+
+  const Azesm = ({ widthAzesm, height }: any) => {
+    const b = isMobile && isPortrait ? { height: height } : { width: widthAzesm, marginHorizontal: 0, height: isMobile && isPortrait ? 460 : height }
+
+    return (
+      <View
+        // @ts-ignore
+        style={[styles.block, b]}>
+        <View style={{ marginTop: s(5), alignItems: 'center' }}>
+          <div
+            style={{
+              marginTop: s(10),
+              width: '100%',
+              textAlign: 'center',
+              color: '#F3F3F3',
+              fontSize: 28,
+              fontFamily: 'KreadonRegular',
+              fontWeight: '330',
+              textTransform: 'uppercase',
+              wordWrap: 'break-word'
+            }}>
+            Я есть Род
+            <br />
+            (родовая система)
+          </div>
+        </View>
+        <View
+          // @ts-ignore
+          style={styles.textView}>
+          <div
+            style={{
+              width: '100%',
+              opacity: 0.8,
+              textAlign: 'justify',
+              color: 'white',
+              fontSize: 16,
+              fontFamily: 'InterRegular',
+              fontWeight: '400',
+              wordWrap: 'break-word'
+            }}>
+            Родовая система как основа позитивного и негативного наследия Рода...
+          </div>
+        </View>
+        <View style={{ position: 'absolute', bottom: 0, alignSelf: 'center', marginBottom: s(20) }}>
+          <div
+            style={{
+              marginBottom: s(15),
+              width: '100%',
+              opacity: 0.8,
+              textAlign: 'center',
+              color: 'white',
+              fontSize: 16,
+              fontFamily: 'InterRegular',
+              fontWeight: '400',
+              wordWrap: 'break-word',
+              fontStyle: 'italic'
+            }}>
+            Курс находится в разработке
+          </div>
+          <AppButton
+            type={'gradient'}
+            title={'Забронировать'}
+            press={() => {
+              dispatch(
+                setModalReservation({
+                  viewModal: true,
+                  typeModal: 'КУРС: Я есть Род (родовая система)'
+                })
+              )
+            }}
           />
-        </svg>
+          <View style={{ height: s(10) }} />
+          <AppButton
+            type={'transparent'}
+            title={'Подробнее'}
+            press={() =>
+              dispatch(
+                setModalMore({
+                  viewModal: true,
+                  typeModal: 'azesm'
+                })
+              )
+            }
+          />
+        </View>
+        <View style={{ marginTop: s(20) }} />
       </View>
     )
   }
 
-  const Other = ({ startY, endY, location1, location2, location3 }: any) => {
+  const HiddenBlock = () => {
     return (
-      <LinearGradient
-        start={{ x: 0.8, y: startY }}
-        end={{ x: 1.0, y: endY }}
-        locations={[location1, location2, location3]}
-        colors={['#061A43', 'rgba(28,47,79,1)', 'rgba(31,57,92,1)']}
+      <View
         // @ts-ignore
-        style={styles.gradient}>
-        <View
-          // @ts-ignore
-          style={styles.mainView}>
+        style={[styles.blockHidden, { flex: 0.5, marginRight: 0, marginHorizontal: 0 }]}
+      />
+    )
+  }
+
+  const MobileBlock = () => {
+    if (widthBlock === 0) {
+      return <></>
+    }
+
+    if (isMobile && isPortrait) {
+      return (
+        <View>
+          <Chakras widthChakras={492} height={540} />
+          <Mission widthMission={492} height={540} />
+          {/*<Azesm /> */}
+        </View>
+      )
+    } else {
+      return (
+        <>
+          {width > 1100 ? (
+            <View style={{ marginHorizontal: s(10), flexDirection: 'row', justifyContent: 'space-between' }}>
+              <Chakras widthChakras={492} height={600} />
+              <View style={{ width: 30 }} />
+              <Mission widthMission={492} height={600} />
+              {/*<Azesm />*/}
+            </View>
+          ) : (
+            <>
+              {width > 800 ? (
+                <View style={{ marginHorizontal: s(10), flexDirection: 'row', justifyContent: 'space-between' }}>
+                  <Chakras widthChakras={widthBlock / 2 - 40} height={isMobile && isLandscape ? 540 : 590} />
+                  <View style={{ width: 30 }} />
+                  <Mission widthMission={widthBlock / 2 - 40} height={isMobile && isLandscape ? 540 : 590} />
+                </View>
+              ) : (
+                <View style={{ marginHorizontal: s(10) }}>
+                  <Chakras widthChakras={'100%'} height={520} />
+                  <Mission widthMission={'100%'} height={520} />
+                </View>
+              )}
+              {/*<View style={{ marginHorizontal: s(10), flexDirection: 'row', justifyContent: 'space-between' }}>*/}
+              {/*  <HiddenBlock />*/}
+              {/*  <Azesm />*/}
+              {/*  <HiddenBlock />*/}
+              {/*</View>*/}
+            </>
+          )}
+        </>
+      )
+    }
+  }
+
+  const Other = () => {
+    const w = Dimensions.get('window').width > 1240 ? 1240 : Dimensions.get('window').width
+
+    return (
+      <View
+        // @ts-ignore
+        style={{ width: '100%', borderBottomWidth: 0.5, borderBottomColor: 'rgb(48,64,96)', alignItems: 'center', flexDirection: 'row' }}
+        onLayout={event => {
+          const { layout } = event.nativeEvent
+          const blocksY = store.getState().app.blocksY
+          dispatch(setBlocksY({ ...blocksY, other: layout.y }))
+        }}>
+        <View style={{ width: (Dimensions.get('window').width - w) / 2, height: '100%', backgroundColor: 'rgb(12,25,58)', opacity: 0.3 }} />
+        <View style={{ width: w }}>
+          <View style={{ position: 'absolute', width: w, height: '100%', backgroundColor: 'rgb(12,25,58)', opacity: 0.3 }} />
           <View
             // @ts-ignore
-            style={styles.mainViewInSide}>
+            style={[styles.blockView, { marginHorizontal: isMobile && isPortrait ? s(7) : s(27) }]}>
+            <div id="trigger4" />
             <View
               // @ts-ignore
               style={styles.title}>
               <div
-                id="courses"
                 style={{
-                  width: '100%',
                   textAlign: 'center',
                   color: 'white',
-                  fontSize: s(24),
+                  fontSize: isMobile && isPortrait ? s(24) : isMobile && !isPortrait ? 38 : 42,
                   fontFamily: 'Forum',
                   fontWeight: '400',
                   textTransform: 'uppercase',
                   wordWrap: 'break-word'
                 }}>
-                ДОПОЛНИТЕЛЬНЫЕ
-                <br />
-                КУРСЫ
+                ДОПОЛНИТЕЛЬНЫЕ КУРСЫ
               </div>
             </View>
             <View
-              // @ts-ignore
-              style={styles.block}>
-              <View style={{ marginTop: s(10), alignItems: 'center' }}>
-                <svg width="21" height="4" viewBox="0 0 21 4" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="18.5" cy="2" r="2" transform="rotate(180 18.5 2)" fill="#F6F6F6" />
-                  <path d="M8.5 2C8.5 0.895431 9.39543 2.7141e-07 10.5 1.74846e-07C11.6046 7.8281e-08 12.5 0.895431 12.5 2C12.5 3.10457 11.6046 4 10.5 4C9.39543 4 8.5 3.10457 8.5 2Z" fill="#F6F6F6" />
-                  <circle cx="2.5" cy="2" r="2" transform="rotate(180 2.5 2)" fill="#F6F6F6" />
-                </svg>
-              </View>
-              <View style={{ marginTop: s(10), alignItems: 'center' }}>
-                <div
-                  style={{
-                    width: '100%',
-                    textAlign: 'center',
-                    color: '#F3F3F3',
-                    fontSize: s(17),
-                    fontFamily: 'KreadonRegular',
-                    fontWeight: '330',
-                    textTransform: 'uppercase',
-                    wordWrap: 'break-word'
-                  }}>
-                  Чакральная система
-                </div>
-                <div
-                  style={{
-                    marginTop: s(20),
-                    width: '100%',
-                    opacity: 0.8,
-                    textAlign: 'justify',
-                    color: '#FFFFFF',
-                    fontSize: s(12),
-                    fontFamily: 'InterRegular',
-                    fontWeight: '400',
-                    wordWrap: 'break-word'
-                  }}>
-                  Чакральная система имеет более, чем одно измерение - не только физическое, но и духовное. Чакры функционируют не только на физическом, психологическом и эмоциональном плане, но также
-                  имеют более тонкие аспекты. И если система полноценна, то все остальное будет тоже в порядке, все восстанавливающие и целительные процессы будут автоматически запущены и не только на
-                  уроне физического тела.
-                </div>
-              </View>
-              <View style={{ marginTop: s(20), alignItems: 'center' }}>
-                <div
-                  style={{
-                    width: '100%',
-                    textAlign: 'center',
-                    color: '#F3F3F3',
-                    fontSize: s(24),
-                    fontFamily: 'Forum',
-                    fontWeight: '400',
-                    wordWrap: 'break-word'
-                  }}>
-                  15 000 руб
-                </div>
-              </View>
-              <View style={{ marginTop: s(20), alignItems: 'center' }}>
-                <AppButton type={'gradient'} title={'Приобрести курс'} press={() => {}} />
-                <View style={{ height: s(10) }} />
-                <AppButton
-                  type={'transparent'}
-                  title={'Программа курса'}
-                  press={() =>
-                    dispatch(
-                      setModalMore({
-                        viewModal: true,
-                        typeModal: 'сhakras'
-                      })
-                    )
-                  }
-                />
-              </View>
-              <Ellipse style={{ top: -2, left: -2 }} />
-              <Ellipse style={{ top: -2, right: -2 }} />
-              <Ellipse style={{ bottom: -2, left: -2 }} />
-              <Ellipse style={{ bottom: -2, right: -2 }} />
-              <View style={{ height: s(20) }} />
+              style={{ width: '100%' }}
+              onLayout={event => {
+                const { layout } = event.nativeEvent
+                setWidthBlock(layout.width)
+              }}>
+              <MobileBlock />
             </View>
-
-            <View
-              // @ts-ignore
-              style={styles.block}>
-              <View style={{ marginTop: s(10), alignItems: 'center' }}>
-                <svg width="21" height="4" viewBox="0 0 21 4" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="18.5" cy="2" r="2" transform="rotate(180 18.5 2)" fill="#F6F6F6" />
-                  <path d="M8.5 2C8.5 0.895431 9.39543 2.7141e-07 10.5 1.74846e-07C11.6046 7.8281e-08 12.5 0.895431 12.5 2C12.5 3.10457 11.6046 4 10.5 4C9.39543 4 8.5 3.10457 8.5 2Z" fill="#F6F6F6" />
-                  <circle cx="2.5" cy="2" r="2" transform="rotate(180 2.5 2)" fill="#F6F6F6" />
-                </svg>
-              </View>
-              <View style={{ marginTop: s(10), alignItems: 'center' }}>
-                <div
-                  style={{
-                    width: '100%',
-                    textAlign: 'center',
-                    color: '#F3F3F3',
-                    fontSize: s(17),
-                    fontFamily: 'KreadonRegular',
-                    fontWeight: '330',
-                    textTransform: 'uppercase',
-                    wordWrap: 'break-word'
-                  }}>
-                  Миссия человека - 12 ключей
-                </div>
-                <div
-                  style={{
-                    marginTop: s(20),
-                    width: '100%',
-                    opacity: 0.8,
-                    textAlign: 'justify',
-                    color: '#FFFFFF',
-                    fontSize: s(12),
-                    fontFamily: 'InterRegular',
-                    fontWeight: '400',
-                    wordWrap: 'break-word'
-                  }}>
-                  12 типов энергий, в которых закладываются врожденные основные качества человека, такие как набор глубинных принципов, таланты и задачи личности. Все эти энергии – это разные принципы
-                  Мироздания, накопление определенных свойств за множество воплощений, а также проявленная индивидуальная основа (суть) личности на данное воплощение. Это мотивация, которой человек
-                  руководствуется – для чего он делает что-то в этой жизни, а также стратегия и инструменты для реализации своей Миссии.
-                </div>
-              </View>
-              <View style={{ marginTop: s(20), alignItems: 'center' }}>
-                <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    /* eslint-disable-next-line max-len */
-                    d="M19.5 10H20.5C20.7652 10 21.0196 10.1054 21.2071 10.2929C21.3946 10.4804 21.5 10.7348 21.5 11V21C21.5 21.2652 21.3946 21.5196 21.2071 21.7071C21.0196 21.8946 20.7652 22 20.5 22H4.5C4.23478 22 3.98043 21.8946 3.79289 21.7071C3.60536 21.5196 3.5 21.2652 3.5 21V11C3.5 10.7348 3.60536 10.4804 3.79289 10.2929C3.98043 10.1054 4.23478 10 4.5 10H5.5V9C5.5 7.14348 6.2375 5.36301 7.55025 4.05025C8.86301 2.7375 10.6435 2 12.5 2C14.3565 2 16.137 2.7375 17.4497 4.05025C18.7625 5.36301 19.5 7.14348 19.5 9V10ZM17.5 10V9C17.5 7.67392 16.9732 6.40215 16.0355 5.46447C15.0979 4.52678 13.8261 4 12.5 4C11.1739 4 9.90215 4.52678 8.96447 5.46447C8.02678 6.40215 7.5 7.67392 7.5 9V10H17.5ZM11.5 14V18H13.5V14H11.5Z"
-                    fill="white"
-                  />
-                </svg>
-                <div
-                  style={{
-                    marginTop: s(5),
-                    width: '100%',
-                    opacity: 0.8,
-                    textAlign: 'center',
-                    color: 'white',
-                    fontSize: s(12),
-                    fontFamily: 'InterRegular',
-                    fontWeight: '400',
-                    wordWrap: 'break-word'
-                  }}>
-                  Курс находится в разработке
-                </div>
-              </View>
-              <View style={{ marginTop: s(30), alignItems: 'center' }}>
-                <AppButton
-                  type={'gradient'}
-                  title={'Забронировать'}
-                  press={() =>
-                    dispatch(
-                      setModalReservation({
-                        viewModal: true,
-                        typeModal: 'КУРС: Миссия человека - 12 ключей'
-                      })
-                    )
-                  }
-                />
-                <View style={{ height: s(10) }} />
-                <AppButton
-                  type={'transparent'}
-                  title={'Программа курса'}
-                  press={() =>
-                    dispatch(
-                      setModalMore({
-                        viewModal: true,
-                        typeModal: 'mission'
-                      })
-                    )
-                  }
-                />
-              </View>
-              <Ellipse style={{ top: -2, left: -2 }} />
-              <Ellipse style={{ top: -2, right: -2 }} />
-              <Ellipse style={{ bottom: -2, left: -2 }} />
-              <Ellipse style={{ bottom: -2, right: -2 }} />
-              <View style={{ height: s(20) }} />
-            </View>
-
-            <View
-              // @ts-ignore
-              style={styles.block}>
-              <View style={{ marginTop: s(10), alignItems: 'center' }}>
-                <svg width="21" height="4" viewBox="0 0 21 4" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="18.5" cy="2" r="2" transform="rotate(180 18.5 2)" fill="#F6F6F6" />
-                  <path d="M8.5 2C8.5 0.895431 9.39543 2.7141e-07 10.5 1.74846e-07C11.6046 7.8281e-08 12.5 0.895431 12.5 2C12.5 3.10457 11.6046 4 10.5 4C9.39543 4 8.5 3.10457 8.5 2Z" fill="#F6F6F6" />
-                  <circle cx="2.5" cy="2" r="2" transform="rotate(180 2.5 2)" fill="#F6F6F6" />
-                </svg>
-              </View>
-              <View style={{ marginTop: s(10), alignItems: 'center' }}>
-                <div
-                  style={{
-                    width: '100%',
-                    textAlign: 'center',
-                    color: '#F3F3F3',
-                    fontSize: s(17),
-                    fontFamily: 'KreadonRegular',
-                    fontWeight: '330',
-                    textTransform: 'uppercase',
-                    wordWrap: 'break-word'
-                  }}>
-                  Я есть Род (родовая система)
-                </div>
-                <div
-                  style={{
-                    marginTop: s(20),
-                    width: '100%',
-                    opacity: 0.8,
-                    textAlign: 'justify',
-                    color: '#FFFFFF',
-                    fontSize: s(12),
-                    fontFamily: 'InterRegular',
-                    fontWeight: '400',
-                    wordWrap: 'break-word'
-                  }}>
-                  Родовая система как основа позитивного и негативного наследия Рода…
-                </div>
-              </View>
-              <View style={{ marginTop: s(20), alignItems: 'center' }}>
-                <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    /* eslint-disable-next-line max-len */
-                    d="M19.5 10H20.5C20.7652 10 21.0196 10.1054 21.2071 10.2929C21.3946 10.4804 21.5 10.7348 21.5 11V21C21.5 21.2652 21.3946 21.5196 21.2071 21.7071C21.0196 21.8946 20.7652 22 20.5 22H4.5C4.23478 22 3.98043 21.8946 3.79289 21.7071C3.60536 21.5196 3.5 21.2652 3.5 21V11C3.5 10.7348 3.60536 10.4804 3.79289 10.2929C3.98043 10.1054 4.23478 10 4.5 10H5.5V9C5.5 7.14348 6.2375 5.36301 7.55025 4.05025C8.86301 2.7375 10.6435 2 12.5 2C14.3565 2 16.137 2.7375 17.4497 4.05025C18.7625 5.36301 19.5 7.14348 19.5 9V10ZM17.5 10V9C17.5 7.67392 16.9732 6.40215 16.0355 5.46447C15.0979 4.52678 13.8261 4 12.5 4C11.1739 4 9.90215 4.52678 8.96447 5.46447C8.02678 6.40215 7.5 7.67392 7.5 9V10H17.5ZM11.5 14V18H13.5V14H11.5Z"
-                    fill="white"
-                  />
-                </svg>
-                <div
-                  style={{
-                    marginTop: s(5),
-                    width: '100%',
-                    opacity: 0.8,
-                    textAlign: 'center',
-                    color: 'white',
-                    fontSize: s(12),
-                    fontFamily: 'InterRegular',
-                    fontWeight: '400',
-                    wordWrap: 'break-word'
-                  }}>
-                  Курс находится в разработке
-                </div>
-              </View>
-              <View style={{ marginTop: s(30), alignItems: 'center' }}>
-                <AppButton
-                  type={'gradient'}
-                  title={'Забронировать'}
-                  press={() =>
-                    dispatch(
-                      setModalReservation({
-                        viewModal: true,
-                        typeModal: 'КУРС: Я есть Род (родовая система)'
-                      })
-                    )
-                  }
-                />
-                <View style={{ height: s(10) }} />
-                <AppButton
-                  type={'transparent'}
-                  title={'Программа курса'}
-                  press={() =>
-                    dispatch(
-                      setModalMore({
-                        viewModal: true,
-                        typeModal: 'azesm'
-                      })
-                    )
-                  }
-                />
-              </View>
-              <Ellipse style={{ top: -2, left: -2 }} />
-              <Ellipse style={{ top: -2, right: -2 }} />
-              <Ellipse style={{ bottom: -2, left: -2 }} />
-              <Ellipse style={{ bottom: -2, right: -2 }} />
-              <View style={{ height: s(20) }} />
-            </View>
-
-            {/*<View*/}
-            {/*  // @ts-ignore*/}
-            {/*  style={styles.block}>*/}
-            {/*  <View style={{ marginTop: s(10), alignItems: 'center' }}>*/}
-            {/*    <svg width="21" height="4" viewBox="0 0 21 4" fill="none" xmlns="http://www.w3.org/2000/svg">*/}
-            {/*      <circle cx="18.5" cy="2" r="2" transform="rotate(180 18.5 2)" fill="#F6F6F6" />*/}
-            {/*      <path d="M8.5 2C8.5 0.895431 9.39543 2.7141e-07 10.5 1.74846e-07C11.6046 7.8281e-08 12.5 0.895431 12.5 2C12.5 3.10457 11.6046 4 10.5 4C9.39543 4 8.5 3.10457 8.5 2Z" fill="#F6F6F6" />*/}
-            {/*      <circle cx="2.5" cy="2" r="2" transform="rotate(180 2.5 2)" fill="#F6F6F6" />*/}
-            {/*    </svg>*/}
-            {/*  </View>*/}
-            {/*  <View style={{ marginTop: s(10), alignItems: 'center' }}>*/}
-            {/*    <div*/}
-            {/*      style={{*/}
-            {/*        width: '100%',*/}
-            {/*        textAlign: 'center',*/}
-            {/*        color: '#F3F3F3',*/}
-            {/*        fontSize: s(17),*/}
-            {/*        fontFamily: 'KreadonRegular',*/}
-            {/*        fontWeight: '330',*/}
-            {/*        textTransform: 'uppercase',*/}
-            {/*        wordWrap: 'break-word'*/}
-            {/*      }}>*/}
-            {/*      ПРОГНОЗИРОВАНИЕ*/}
-            {/*    </div>*/}
-            {/*  </View>*/}
-            {/*  <View style={{ marginTop: s(20), alignItems: 'center' }}>*/}
-            {/*    <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">*/}
-            {/*      <path*/}
-            {/*        /* eslint-disable-next-line max-len */}
-            {/*        d="M19.5 10H20.5C20.7652 10 21.0196 10.1054 21.2071 10.2929C21.3946 10.4804 21.5 10.7348 21.5 11V21C21.5 21.2652 21.3946 21.5196 21.2071 21.7071C21.0196 21.8946 20.7652 22 20.5 22H4.5C4.23478 22 3.98043 21.8946 3.79289 21.7071C3.60536 21.5196 3.5 21.2652 3.5 21V11C3.5 10.7348 3.60536 10.4804 3.79289 10.2929C3.98043 10.1054 4.23478 10 4.5 10H5.5V9C5.5 7.14348 6.2375 5.36301 7.55025 4.05025C8.86301 2.7375 10.6435 2 12.5 2C14.3565 2 16.137 2.7375 17.4497 4.05025C18.7625 5.36301 19.5 7.14348 19.5 9V10ZM17.5 10V9C17.5 7.67392 16.9732 6.40215 16.0355 5.46447C15.0979 4.52678 13.8261 4 12.5 4C11.1739 4 9.90215 4.52678 8.96447 5.46447C8.02678 6.40215 7.5 7.67392 7.5 9V10H17.5ZM11.5 14V18H13.5V14H11.5Z"*/}
-            {/*        fill="white"*/}
-            {/*      />*/}
-            {/*    </svg>*/}
-            {/*    <div*/}
-            {/*      style={{*/}
-            {/*        marginTop: s(5),*/}
-            {/*        width: '100%',*/}
-            {/*        opacity: 0.8,*/}
-            {/*        textAlign: 'center',*/}
-            {/*        color: 'white',*/}
-            {/*        fontSize: s(12),*/}
-            {/*        fontFamily: 'InterRegular',*/}
-            {/*        fontWeight: '400',*/}
-            {/*        wordWrap: 'break-word'*/}
-            {/*      }}>*/}
-            {/*      Курс находится в разработке*/}
-            {/*    </div>*/}
-            {/*  </View>*/}
-            {/*  <View style={{ marginTop: s(30), alignItems: 'center' }}>*/}
-            {/*    <AppButton*/}
-            {/*      type={'gradient'}*/}
-            {/*      title={'Забронировать'}*/}
-            {/*      press={() =>*/}
-            {/*        dispatch(*/}
-            {/*          setModalReservation({*/}
-            {/*            viewModal: true,*/}
-            {/*            typeModal: 'КУРС: Прогнозирование'*/}
-            {/*          })*/}
-            {/*        )*/}
-            {/*      }*/}
-            {/*    />*/}
-            {/*    <View style={{ height: s(10) }} />*/}
-            {/*    <AppButton type={'transparent'} title={'Подробнее'} press={() => {}} />*/}
-            {/*  </View>*/}
-            {/*  <Ellipse style={{ top: -2, left: -2 }} />*/}
-            {/*  <Ellipse style={{ top: -2, right: -2 }} />*/}
-            {/*  <Ellipse style={{ bottom: -2, left: -2 }} />*/}
-            {/*  <Ellipse style={{ bottom: -2, right: -2 }} />*/}
-            {/*  <View style={{ height: s(20) }} />*/}
-            {/*</View>*/}
+            <View style={{ marginTop: s(20) }} />
           </View>
         </View>
-      </LinearGradient>
+        <View style={{ width: (Dimensions.get('window').width - w) / 2, height: '100%', backgroundColor: 'rgb(12,25,58)', opacity: 0.3 }} />
+      </View>
     )
   }
 
-  if (screenSize.width < 540) {
-    return <Other startY={1.0} endY={0.0} location1={0.2} location2={0.9} location3={1.0} />
-  }
-
-  return <Other startY={0.9} endY={1.0} location1={0.3} location2={0.8} location3={0.9} />
+  return <Other />
 }
 
 export default OtherBlock

@@ -11,11 +11,16 @@
 
 // @flow
 import { useStyles } from 'hooks'
-import React, { useEffect, useState } from 'react'
-import { Dimensions, Image, View } from 'react-native'
-import LinearGradient from 'react-native-linear-gradient'
+import React, { useMemo } from 'react'
+import { isMobile, useMobileOrientation } from 'react-device-detect'
+// @ts-ignore
+import MovingText from 'react-moving-text'
+import { Text, useWindowDimensions, View } from 'react-native'
 import { s } from 'react-native-size-matters'
+import { useDispatch } from 'react-redux'
 import R from 'res'
+import { store } from 'store'
+import { setBlocksY } from 'store/data'
 
 import stylesConfig from './MethodBlock.styles'
 
@@ -26,107 +31,138 @@ const T = R.lang
 // eslint-disable-next-line no-empty-pattern
 const MethodBlock = ({}: MethodBlockProps) => {
   const styles = useStyles(stylesConfig)
-  const [screenSize, setScreenSize] = useState({ width: Dimensions.get('window').width, height: Dimensions.get('window').height })
+  const dispatch = useDispatch()
+  const { isPortrait } = useMobileOrientation()
+  const { width } = useWindowDimensions()
+  // @ts-ignore
+  const w = width > 1240 ? 1240 : width
 
-  const updateDimensions = () => {
-    // @ts-ignore
-    setScreenSize({ width: window.innerWidth, height: window.innerHeight })
-  }
-
-  useEffect(() => {
-    // @ts-ignore
-    window.addEventListener('resize', updateDimensions)
-
-    // @ts-ignore
-    return () => window.removeEventListener('resize', updateDimensions)
-  }, [])
-
-  const Method = ({ startY, endY, location1, location2, location3 }: any) => {
+  const Method = () => {
     return (
-      <LinearGradient
-        start={{ x: 0.8, y: startY }}
-        end={{ x: 1.0, y: endY }}
-        locations={[location1, location2, location3]}
-        colors={['#061A43', 'rgba(28,47,79,1)', 'rgba(31,57,92,1)']}
-        // @ts-ignore
-        style={styles.gradient}>
+      <div id="about" className="polaraCSS">
         <View
-          // @ts-ignore
-          style={styles.mainView}>
+          style={{ width: '100%', borderBottomWidth: 0.5, borderBottomColor: 'rgb(48,64,96)', alignItems: 'center' }}
+          onLayout={event => {
+            const { layout } = event.nativeEvent
+            const blocksY = store.getState().app.blocksY
+            dispatch(setBlocksY({ ...blocksY, about: layout.y }))
+          }}>
           <View
-            // @ts-ignore
-            style={styles.mainViewInSide}>
+            style={{
+              position: 'absolute',
+              width: '100%',
+              height: '100%',
+              backgroundColor: 'rgb(12,25,58)',
+              opacity: 0.3
+            }}
+          />
+          <View style={{ width: w }}>
             <View
               // @ts-ignore
-              style={styles.title}>
-              <div
-                id="method"
-                style={{
-                  textAlign: 'center',
-                  color: 'white',
-                  fontSize: s(24),
-                  fontFamily: 'Forum',
-                  fontWeight: '400',
-                  textTransform: 'uppercase',
-                  wordWrap: 'break-word'
-                }}>
-                О методе
-              </div>
+              style={[styles.blockView, { marginHorizontal: isMobile && isPortrait ? s(7) : s(27) }]}>
+              <View
+                // @ts-ignore
+                style={styles.mainView}>
+                <MovingText type="fadeIn" duration="1000ms" delay="1s" direction="normal" timing="ease-in" iteration="1" fillMode="backwards">
+                  <View
+                    // @ts-ignore
+                    style={[styles.mainViewInSide, { marginHorizontal: isMobile && isPortrait ? s(7) : s(10) }]}>
+                    <View
+                      // @ts-ignore
+                      style={styles.title}>
+                      <Text
+                        style={{
+                          textAlign: 'center',
+                          color: 'white',
+                          fontSize: isMobile && isPortrait ? s(24) : isMobile && !isPortrait ? 38 : 42,
+                          fontFamily: 'Forum',
+                          fontWeight: '400',
+                          textTransform: 'uppercase'
+                        }}>
+                        О методе
+                      </Text>
+                    </View>
+                    {isMobile && isPortrait ? (
+                      <View
+                        // @ts-ignore
+                        style={styles.textView}>
+                        <div
+                          style={{
+                            width: '100%',
+                            // opacity: 0.8,
+                            textAlign: 'justify',
+                            color: 'white',
+                            fontSize: 16,
+                            fontFamily: 'InterRegular',
+                            fontWeight: '400',
+                            wordWrap: 'break-word'
+                          }}>
+                          <img
+                            src="images/foto.jpg"
+                            width={isMobile ? 148 : 240}
+                            height={isMobile ? 180 : 300}
+                            // @ts-ignore
+                            style={{ float: 'left', margin: '0 20px 10px 0' }}
+                            alt=""
+                          />
+                          Приветствую всех, кто задается вопросами самопознания и кому интересна тайна кода своего рождения!
+                          <br />
+                          <br />
+                          Дата рождения - это трехкодичная система ко всему проявленному и непроявленному в нас, это ключ к нашей жизни и инструкция, выданная нам при рождении. Инструмент, который я
+                          искала на протяжении нескольких лет, изучая многое для себя, стал частью не только моей жизни, но авторским методом самопознания «Полара», в котором я совместила нумерологию
+                          и сакральную геометрию.
+                          <br />
+                          <br />
+                          "Бог мыслит геометрически..." - эта фраза помогла мне найти направление, а Цветок жизни и Цифры дали возможность перевести из мира тонких энергий в материальный мир знания на
+                          доступном языке - языке цифр. Хотя все в нашей жизни энергии, через энергию цифр это доступно и понятно каждому.
+                          <br />
+                          <br />
+                          Добро пожаловать в этот мир, Мир познания себя и Вселенной через себя! И начнём мы с наших Предназначений.
+                        </div>
+                      </View>
+                    ) : (
+                      <View style={{ flexDirection: 'row', marginHorizontal: s(8), marginTop: s(10) }}>
+                        <View>
+                          <img
+                            src="images/foto.jpg"
+                            width={isMobile ? 148 : 240}
+                            height={isMobile ? 180 : 310}
+                            // @ts-ignore
+                            // style={{ float: 'left', margin: '0 20px 10px 0' }}
+                            alt=""
+                          />
+                        </View>
+                        <View style={{ width: 20 }} />
+                        <Text style={styles.textMethod}>
+                          Приветствую всех, кто задается вопросами самопознания и кому интересна тайна кода своего рождения!
+                          <br />
+                          <br />
+                          Дата рождения - это трехкодичная система ко всему проявленному и непроявленному в нас, это ключ к нашей жизни и инструкция, выданная нам при рождении. Инструмент, который я
+                          искала на протяжении нескольких лет, изучая многое для себя, стал частью не только моей жизни, но авторским методом самопознания «Полара», в котором я совместила нумерологию
+                          и сакральную геометрию.
+                          <br />
+                          <br />
+                          "Бог мыслит геометрически..." - эта фраза помогла мне найти направление, а Цветок жизни и Цифры дали возможность перевести из мира тонких энергий в материальный мир знания на
+                          доступном языке - языке цифр. Хотя все в нашей жизни энергии, через энергию цифр это доступно и понятно каждому.
+                          <br />
+                          <br />
+                          Добро пожаловать в этот мир, Мир познания себя и Вселенной через себя! И начнём мы с наших Предназначений.
+                        </Text>
+                      </View>
+                    )}
+                    <View style={{ height: s(20) }} />
+                  </View>
+                </MovingText>
+                <View style={{ height: s(10) }} />
+              </View>
             </View>
-            <View
-              // @ts-ignore
-              style={styles.textView}>
-              <div
-                style={{
-                  width: '100%',
-                  opacity: 0.8,
-                  textAlign: 'justify',
-                  color: 'white',
-                  fontSize: s(12),
-                  fontFamily: 'InterRegular',
-                  fontWeight: '400',
-                  wordWrap: 'break-word'
-                }}>
-                <img
-                  src="images/foto.jpg"
-                  width={s(110)}
-                  height={s(135)}
-                  // @ts-ignore
-                  style={{ float: 'left', margin: '0 10px 10px 0' }}
-                />
-                Приветствую всех, кто задается вопросами самопознания и кому интересна тайна кода своего рождения! Дата рождения - это трехкодичная система ко всему проявленному и непроявленному в
-                нас, это ключ к нашей жизни и инструкция, выданная нам при рождении.
-                <br />
-                <br />
-                Инструмент, который я искала на протяжении нескольких лет, изучая многое для себя, а потом это просто стало частью моей жизни и не только моей, это мой авторский Метод самопознания
-                «Полара», в котором я совместила нумерологию и сакральную геометрию.
-                <br />
-                <br />
-                "Бог мыслит геометрически..." - эта фраза помогла мне найти направление, а Цветок жизни и цифры дали возможность перевести из мира тонких энергий в материальный мир знания на доступном
-                языке - языке цифр. Хотя все в нашей жизни энергии, через энергию цифр это доступно и понятно каждому.
-                <br />
-                <br />
-                Добро пожаловать в этот мир, мир познания себя и Вселенной через себя!
-                <br />
-                <br />И начнём мы с наших Предназначений.
-              </div>
-            </View>
-            {/*<View*/}
-            {/*  // @ts-ignore*/}
-            {/*  style={styles.fotoView}>*/}
-            {/*  <Image source={require('assets/images/foto.jpg')} style={styles.foto} />*/}
-            {/*</View>*/}
           </View>
         </View>
-      </LinearGradient>
+      </div>
     )
   }
 
-  if (screenSize.width < 540) {
-    return <Method startY={0.9} endY={1.0} location1={0.3} location2={0.8} location3={0.9} />
-  }
-
-  return <Method startY={0.3} endY={0.0} location1={0.2} location2={0.7} location3={0.9} />
+  return useMemo(() => <Method />, [width, isPortrait])
 }
 
 export default MethodBlock

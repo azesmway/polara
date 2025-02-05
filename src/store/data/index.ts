@@ -20,6 +20,13 @@ interface IApp {
     phone: string
     question: string
   }
+  blocksY: {
+    about: number
+    method: number
+    other: number
+    master: number
+    contact: number
+  }
 }
 
 const initialState: IApp = {
@@ -41,6 +48,13 @@ const initialState: IApp = {
     telegram: '',
     phone: '',
     question: ''
+  },
+  blocksY: {
+    about: 0,
+    method: 0,
+    other: 0,
+    master: 0,
+    contact: 0
   }
 }
 
@@ -62,10 +76,13 @@ export const appSlice = createSlice({
     },
     setForm: (state, action: PayloadAction<any>) => {
       state.form = action.payload
+    },
+    setBlocksY: (state, action: PayloadAction<any>) => {
+      state.blocksY = action.payload
     }
   }
 })
 
-export const { setShowMenu, setModalReservation, setModalMaster, setModalMore, setForm } = appSlice.actions
+export const { setShowMenu, setModalReservation, setModalMaster, setModalMore, setForm, setBlocksY } = appSlice.actions
 
 export default appSlice.reducer

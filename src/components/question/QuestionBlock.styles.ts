@@ -10,28 +10,27 @@
  */
 
 // @flow
+import { isMobile } from 'react-device-detect'
 import { createStyles } from 'utils/createStyles'
 
 export default createStyles((colors, fonts) => ({
   gradient: {
-    width: '100%'
+    width: '100%',
+    borderRadius: '10@s'
   },
   mainView: {
     width: '100%',
-    height: '460@s',
     borderBottomWidth: 0.5,
     borderBottomColor: 'rgb(48,64,96)'
   },
   mainViewInSide: {
-    height: '460@s',
-    marginHorizontal: '7@s',
     borderLeftWidth: 0.5,
     borderLeftColor: 'rgb(48,64,96)',
     borderRightWidth: 0.5,
     borderRightColor: 'rgb(53,76,94)'
   },
   title: {
-    marginTop: '40@s',
+    marginTop: '10@s',
     alignItems: 'center'
   },
   inputMask: {
@@ -55,8 +54,15 @@ export default createStyles((colors, fonts) => ({
   },
   text: {
     fontFamily: fonts?.Inter?.regular,
-    fontSize: '11@s',
+    fontSize: 16,
     color: 'white',
     textAlign: 'center'
+  },
+  block: {
+    borderRadius: '10@s',
+    marginHorizontal: '10@s',
+    margin: '10@s',
+    borderWidth: 0.5,
+    borderColor: 'rgb(48,64,96)'
   }
 }))

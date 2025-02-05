@@ -6,14 +6,14 @@ import { s } from 'react-native-size-matters'
 import { useDispatch } from 'react-redux'
 import { setModalMore, setModalReservation } from 'store/data'
 
-const AzesmBlock = ({ modalView, styles }: any) => {
+const ForecastBlock = ({ modalView, styles }: any) => {
   const dispatch = useDispatch()
 
   return (
     <View style={{ marginTop: isMobile ? s(40) : s(10), paddingHorizontal: isMobile ? s(20) : s(15) }}>
-      <div style={styles.moduleName}>Я есть Род — родовая система</div>
+      <div style={styles.moduleName}>Прогнозирование</div>
       <div style={styles.subtitle}>Описание курса:</div>
-      <div style={styles.moduleSubject}>Родовая система как основа позитивного и негативного наследия Рода…</div>
+      <div style={styles.moduleSubject} />
       <View style={{ marginVertical: isMobile ? s(30) : s(15), alignItems: 'center' }}>
         <AppButton
           type={'more'}
@@ -23,7 +23,7 @@ const AzesmBlock = ({ modalView, styles }: any) => {
             dispatch(
               setModalReservation({
                 viewModal: true,
-                typeModal: 'КУРС: Я есть Род — родовая система'
+                typeModal: 'КУРС: Прогнозирование'
               })
             )
           }}
@@ -33,4 +33,4 @@ const AzesmBlock = ({ modalView, styles }: any) => {
   )
 }
 
-export default AzesmBlock
+export default ForecastBlock

@@ -61,6 +61,13 @@ const fileLoaderConfiguration = {
 module.exports = argv => {
   return {
     entry: path.resolve(appDirectory, 'index'),
+    devServer: {
+      static: {
+        directory: path.join(__dirname, 'public')
+      },
+      compress: true,
+      port: 8080
+    },
     output: {
       clean: true,
       path: path.resolve(appDirectory, 'web/dist'),

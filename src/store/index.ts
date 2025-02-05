@@ -9,6 +9,7 @@ import { storage } from './storage'
 
 const reduxStorage = {
   setItem: (key: string, value: string | number | boolean | Uint8Array) => {
+    // @ts-ignore
     storage.set(key, value)
     return Promise.resolve(true)
   },

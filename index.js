@@ -6,6 +6,9 @@ import fontForum from 'assets/fonts/Forum/Forum-Regular.ttf'
 import interBold from 'assets/fonts/Inter/Inter-Bold.otf'
 import interRegular from 'assets/fonts/Inter/Inter-Regular.otf'
 import kreadonRegular from 'assets/fonts/Kreadon/Kreadon-Regular.ttf'
+import Oranienbaum from 'assets/fonts/Oranienbaum/Oranienbaum-Regular.ttf'
+import fontUbuntuB from 'assets/fonts/Ubuntu/Ubuntu-Bold.ttf'
+import fontUbuntuR from 'assets/fonts/Ubuntu/Ubuntu-Regular.ttf'
 import React from 'react'
 import { createRoot } from 'react-dom/client'
 import { AppRegistry, Platform } from 'react-native'
@@ -51,6 +54,21 @@ if (Platform.OS === 'web') {
   font-family: KreadonRegular;
 }`
 
+  const fontUbuntuRStyles = `@font-face {
+  src: url(${fontUbuntuR});
+  font-family: UbuntuRegular;
+}`
+
+  const fontUbuntuBStyles = `@font-face {
+  src: url(${fontUbuntuB});
+  font-family: UbuntuBold;
+}`
+
+  const fontOranienbaumStyles = `@font-face {
+  src: url(${Oranienbaum});
+  font-family: Oranienbaum;
+}`
+
   // Create stylesheet
   const style = document.createElement('style')
   style.type = 'text/css'
@@ -64,6 +82,9 @@ if (Platform.OS === 'web') {
     style.appendChild(document.createTextNode(interRegularStyles))
     style.appendChild(document.createTextNode(interBoldStyles))
     style.appendChild(document.createTextNode(kreadonRegularStyles))
+    style.appendChild(document.createTextNode(fontUbuntuRStyles))
+    style.appendChild(document.createTextNode(fontUbuntuBStyles))
+    style.appendChild(document.createTextNode(fontOranienbaumStyles))
   }
 
   // Inject stylesheet

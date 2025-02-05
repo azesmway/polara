@@ -12,10 +12,12 @@
 // @flow
 import { useStyles } from 'hooks'
 import React, { useEffect, useState } from 'react'
-import { Dimensions, TouchableOpacity, View } from 'react-native'
+import { isMobile, useMobileOrientation } from 'react-device-detect'
+import { Dimensions, TouchableOpacity, useWindowDimensions, View } from 'react-native'
 import { s } from 'react-native-size-matters'
 import { useDispatch } from 'react-redux'
 import R from 'res'
+import { WIDTH_DESKTOP } from 'res/const.ts'
 import { setModalMore } from 'store/data'
 
 import stylesConfig from './PolicyBlock.styles'
@@ -28,73 +30,77 @@ const T = R.lang
 const PolicyBlock = ({}: PolicyBlockProps) => {
   const styles = useStyles(stylesConfig)
   const dispatch = useDispatch()
-  const [screenSize, setScreenSize] = useState({ width: Dimensions.get('window').width, height: Dimensions.get('window').height })
 
-  const updateDimensions = () => {
-    // @ts-ignore
-    setScreenSize({ width: window.innerWidth, height: window.innerHeight })
-  }
-
-  useEffect(() => {
-    // @ts-ignore
-    window.addEventListener('resize', updateDimensions)
-
-    // @ts-ignore
-    return () => window.removeEventListener('resize', updateDimensions)
-  }, [])
+  const { isPortrait } = useMobileOrientation()
+  const { width } = useWindowDimensions()
 
   const Policy = () => {
+    const w = width > WIDTH_DESKTOP ? WIDTH_DESKTOP : width
+
     return (
       <View
         // @ts-ignore
-        style={styles.mainView}>
-        <View
-          // @ts-ignore
-          style={styles.mainViewInSide}>
+        style={{ width: '100%', borderBottomWidth: 0.5, borderBottomColor: 'rgb(48,64,96)', alignItems: 'center' }}>
+        <View style={{ width: w }}>
           <View
             // @ts-ignore
-            style={styles.title}>
-            <TouchableOpacity
-              onPress={() => {
-                dispatch(
-                  setModalMore({
-                    viewModal: true,
-                    typeModal: 'policy'
-                  })
-                )
-              }}>
-              <div
-                style={{
-                  opacity: 0.8,
-                  color: 'white',
-                  fontSize: s(12),
-                  fontFamily: 'InterRegular',
-                  fontWeight: '300',
-                  textDecoration: 'underline',
-                  wordWrap: 'break-word'
-                }}>
-                Политика конфиденциальности
-              </div>
-            </TouchableOpacity>
-            <div
-              style={{
-                marginTop: s(5),
-                opacity: 0.8,
-                color: 'white',
-                fontSize: s(12),
-                fontFamily: 'InterRegular',
-                fontWeight: '300',
-                wordWrap: 'break-word'
-              }}>
-              © Полара. Все права защищены
-            </div>
+            style={[styles.mainViewInSide, { marginHorizontal: isMobile && isPortrait ? s(7) : s(27) }]}>
+            <View id={'contacts'}>
+              <View style={{ flexDirection: 'row', width: '100%', marginTop: isMobile ? s(12) : s(5), justifyContent: 'space-between' }}>
+                <View
+                  // @ts-ignore
+                  style={styles.title}>
+                  <div
+                    style={{
+                      marginLeft: s(8),
+                      opacity: 0.8,
+                      color: '#e9edfb',
+                      fontSize: 14,
+                      fontFamily: 'InterRegular',
+                      fontWeight: '300',
+                      wordWrap: 'break-word'
+                    }}>
+                    © Полара.
+                    <br />
+                    Все права защищены
+                  </div>
+                </View>
+                <View
+                  // @ts-ignore
+                  style={styles.policy}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      dispatch(
+                        setModalMore({
+                          viewModal: true,
+                          typeModal: 'policy'
+                        })
+                      )
+                    }}>
+                    <div
+                      style={{
+                        opacity: 0.8,
+                        marginRight: s(8),
+                        color: '#e9edfb',
+                        fontSize: 14,
+                        fontFamily: 'InterRegular',
+                        fontWeight: '300',
+                        textDecoration: 'underline',
+                        wordWrap: 'break-word'
+                      }}>
+                      Политика конфиденциальности
+                    </div>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
           </View>
         </View>
       </View>
     )
   }
 
-  if (screenSize.width < 540) {
+  if (isMobile) {
     return <Policy />
   }
 

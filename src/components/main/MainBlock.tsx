@@ -10,109 +10,125 @@
  */
 
 // @flow
-import AppButton from 'components/ui/button'
-import { useStyles } from 'hooks'
-import React, { useEffect, useState } from 'react'
-import { Dimensions, Text, View } from 'react-native'
-import LinearGradient from 'react-native-linear-gradient'
-import { s } from 'react-native-size-matters'
-import { useDispatch } from 'react-redux'
-import R from 'res'
 
+// import AppButton from 'components/ui/button'
+import { useStyles } from 'hooks'
+import React, { useMemo } from 'react'
+import { isMobile, useMobileOrientation } from 'react-device-detect'
+// @ts-ignore
+import MovingText from 'react-moving-text'
+import { Text, useWindowDimensions, View } from 'react-native'
+import { s } from 'react-native-size-matters'
+import R from 'res'
+import { WIDTH_DESKTOP } from 'res/const'
+
+// import { setBlocksY } from 'store/data'
 import stylesConfig from './MainBlock.styles'
 
-type MainBlockProps = {}
+type MainBlockProps = {
+  scrollRef: any
+}
 
 const T = R.lang
 
-// eslint-disable-next-line no-empty-pattern
-const MainBlock = ({}: MainBlockProps) => {
+const MainBlock = ({ scrollRef }: MainBlockProps) => {
   const styles = useStyles(stylesConfig)
-  const dispatch = useDispatch()
-  const [screenSize, setScreenSize] = useState({ width: Dimensions.get('window').width, height: Dimensions.get('window').height })
+  const { isPortrait } = useMobileOrientation()
+  const { width } = useWindowDimensions()
 
-  const updateDimensions = () => {
-    // @ts-ignore
-    setScreenSize({ width: window.innerWidth, height: window.innerHeight })
-  }
+  // {!isMobile ? (
+  //               <>
+  //                 <MovingText type="popIn" duration="2000ms" delay="1s" direction="normal" timing="ease-in" iteration="1" fillMode="backwards">
+  //                   <View style={{ marginTop: 60, width: '100%', alignItems: 'center' }}>
+  //                     <AppButton
+  //                       type={'white'}
+  //                       title={'Приобрести курс'}
+  //                       press={() => {
+  //                         if (scrollRef && scrollRef.current) {
+  //                           // @ts-ignore
+  //                           scrollRef.current?.scrollTo({
+  //                             y: blocksY.method,
+  //                             animated: true
+  //                           })
+  //                         }
+  //                       }}
+  //                     />
+  //                   </View>
+  //                 </MovingText>
+  //                 <View style={{ marginTop: 74, width: '100%' }} />
+  //               </>
+  //             ) : (
+  //               <>
+  //                 {/*<View style={{ height: s(60) }} />*/}
+  //                 <View style={{ width: '100%', marginTop: 40, alignItems: 'center', justifyContent: 'center' }}>
+  //                   <AppButton
+  //                     type={'white'}
+  //                     title={'Приобрести курс'}
+  //                     press={() => {
+  //                       if (scrollRef && scrollRef.current) {
+  //                         // @ts-ignore
+  //                         scrollRef.current?.scrollTo({
+  //                           y: blocksY.method,
+  //                           animated: true
+  //                         })
+  //                       }
+  //                     }}
+  //                   />
+  //                   <View style={{ height: s(10) }} />
+  //                   {/*<AppButton*/}
+  //                   {/*  type={'transparent'}*/}
+  //                   {/*  title={'Подробнее о методе'}*/}
+  //                   {/*  press={() =>*/}
+  //                   {/*    // @ts-ignore*/}
+  //                   {/*    (document.location.href = '#method')*/}
+  //                   {/*  }*/}
+  //                   {/*/>*/}
+  //                 </View>
+  //                 <View style={{ width: '100%', marginTop: 40 }} />
+  //               </>
+  //             )}
 
-  useEffect(() => {
-    // @ts-ignore
-    window.addEventListener('resize', updateDimensions)
-
-    // @ts-ignore
-    return () => window.removeEventListener('resize', updateDimensions)
-  }, [])
-
-  const OnePage = ({ startY, endY, location1, location2, location3 }: any) => {
+  const OnePage = () => {
     return (
-      <LinearGradient
-        start={{ x: 0.0, y: startY }}
-        end={{ x: 1.0, y: endY }}
-        locations={[location1, location2, location3]}
-        colors={['#061A43', 'rgba(28,47,79,1)', 'rgba(36,60,87,1)']}
-        // @ts-ignore
-        style={styles.gradient}>
+      <View style={{ width: '100%', borderBottomWidth: 0.5, borderBottomColor: 'rgb(48,64,96)', alignItems: 'center' }}>
         <View
           // @ts-ignore
-          style={styles.mainView}>
+          style={{ width: width > WIDTH_DESKTOP ? WIDTH_DESKTOP : width }}>
           <View
             // @ts-ignore
-            style={styles.mainViewInSide}>
-            <View style={{ width: '100%', height: 240, alignItems: 'center', justifyContent: 'center' }}>
+            style={[styles.mainViewInSide, { marginHorizontal: isMobile && isPortrait ? s(7) : s(27) }]}>
+            <View style={{ marginTop: 50, width: '100%', alignItems: 'center', justifyContent: 'center' }}>
               {/*<Image source={LogoCenter} style={{ width: 220, height: 220 }} /> id="rotate-rect"*/}
               <View style={{ position: 'absolute', top: 22 }}>
-                <img id="rotate-img-3" src="images/bg.svg" width="71" height="188" />
+                <img id="rotate-img-3" src="images/bg.svg" width="71" height="188" alt="" />
               </View>
               <View style={{ position: 'absolute', top: 30 }}>
-                <img id="rotate-img-2" src="images/down.svg" width="170" height="170" />
+                <img id="rotate-img-2" src="images/down.svg" width="170" height="170" alt="" />
               </View>
               <View style={{ position: 'absolute', top: 15 }}>
-                <img id="rotate-img-1" src="images/up.svg" width="200" height="200" />
+                <img id="rotate-img-1" src="images/up.svg" width="200" height="200" alt="" />
               </View>
             </View>
-            <View style={{ width: '100%', alignItems: 'center', justifyContent: 'center' }}>
-              <Text style={[styles.title, { fontSize: screenSize.width < 540 ? s(24) : s(18) }]}>{'Метод самопознания Полара'}</Text>
-            </View>
-            {screenSize.width > 540 ? (
-              <View style={{ marginTop: 30, width: '100%', alignItems: 'center' }}>
-                <Text style={{ color: '#fff', fontSize: 24, textAlign: 'center', fontFamily: 'KreadonRegular' }}>{'ПРОЕКТ НАХОДИТСЯ\nВ РАЗРАБОТКЕ!'}</Text>
-              </View>
-            ) : (
-              <>
-                <View style={{ height: s(60) }} />
-                <View style={{ width: '100%', alignItems: 'center', justifyContent: 'center' }}>
-                  <AppButton
-                    type={'gradient'}
-                    title={'Приобрести курс'}
-                    press={() =>
-                      // @ts-ignore
-                      (document.location.href = '#methodPay')
-                    }
-                  />
-                  <View style={{ height: s(10) }} />
-                  <AppButton
-                    type={'transparent'}
-                    title={'Подробнее о методе'}
-                    press={() =>
-                      // @ts-ignore
-                      (document.location.href = '#method')
-                    }
-                  />
+            <View style={{ width: '100%', marginTop: isMobile ? 280 : 280, alignItems: 'center', justifyContent: 'center' }}>
+              <MovingText type="flipFromTop" duration="3000ms" delay="0s" direction="normal" timing="ease" iteration="1" fillMode="none">
+                <View style={{ width: '100%' }}>
+                  <Text style={[styles.title, { fontSize: isMobile && isPortrait ? s(24) : isMobile && !isPortrait ? 42 : 48 }]}>{'Метод самопознания Полара'}</Text>
                 </View>
-              </>
-            )}
+              </MovingText>
+              <MovingText type="slideInFromBottom" duration="3000ms" delay="0s" direction="normal" timing="ease" iteration="1" fillMode="none">
+                <View style={{ width: '100%' }}>
+                  <Text style={[styles.subtitle, { fontSize: isMobile && isPortrait ? s(16) : isMobile && !isPortrait ? 26 : 26 }]}>{'Сакральная нумерология'}</Text>
+                </View>
+              </MovingText>
+            </View>
+            <View style={{ width: '100%', marginTop: 80 }} />
           </View>
         </View>
-      </LinearGradient>
+      </View>
     )
   }
 
-  if (screenSize.width < 540) {
-    return <OnePage startY={1.0} endY={0.0} location1={0.2} location2={0.9} location3={1.0} />
-  }
-
-  return <OnePage startY={0.8} endY={0.3} location1={0.6} location2={0.9} location3={0.99} />
+  return useMemo(() => <OnePage />, [width, isPortrait])
 }
 
 export default MainBlock

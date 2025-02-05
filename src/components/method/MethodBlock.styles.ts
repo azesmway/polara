@@ -10,34 +10,73 @@
  */
 
 // @flow
+import { isMobile } from 'react-device-detect'
 import { Dimensions } from 'react-native'
 import { createStyles } from 'utils/createStyles'
 
 export default createStyles((colors, fonts) => ({
   gradient: {
-    width: '100%'
+    opacity: 0.8,
+    borderRadius: '10@s',
+    borderWidth: 0.5,
+    borderColor: 'rgb(48,64,96)',
+
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 0
+    },
+    shadowOpacity: 0.9,
+    shadowRadius: 26,
+
+    elevation: 24,
+    backgroundColor: 'rgb(12,25,58)'
   },
-  mainView: {
-    width: '100%',
-    height: '530@s',
-    borderBottomWidth: 0.5,
-    borderBottomColor: 'rgb(48,64,96)'
-  },
-  mainViewInSide: {
-    height: '530@s',
-    marginHorizontal: '7@s',
+  blockView: {
     borderLeftWidth: 0.5,
     borderLeftColor: 'rgb(48,64,96)',
     borderRightWidth: 0.5,
     borderRightColor: 'rgb(53,76,94)'
   },
+  mainView: {
+    // marginTop: '5@s'
+    // borderBottomWidth: 0.5,
+    // borderBottomColor: 'rgb(48,64,96)',
+    // borderLeftWidth: 0.5,
+    // borderLeftColor: 'rgb(48,64,96)',
+    // borderRightWidth: 0.5,
+    // borderRightColor: 'rgb(53,76,94)'
+  },
+  mainViewInSide: {
+    // borderWidth: 0.5,
+    // borderColor: 'rgb(53,76,94)',
+    // borderRadius: '10@s',
+    // backgroundImage: `linear-gradient(135deg, transparent, rgba(12,25,58, 0.6) 50%, transparent)`,
+    // shadowColor: '#000000',
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 5
+    // },
+    // shadowOpacity: 1,
+    // shadowRadius: 20,
+    // elevation: 24
+  },
   title: {
-    marginTop: '30@s',
+    marginTop: isMobile ? '15@s' : '8@s',
     alignItems: 'center'
   },
   textView: {
-    marginTop: '20@s',
-    paddingHorizontal: '10@s'
+    marginTop: isMobile ? '20@s' : '10@s'
+    // paddingHorizontal: '10@s'
+  },
+  textMethod: {
+    // width: '310@s',
+    // paddingHorizontal: '5@s',
+    textAlign: 'justify',
+    color: 'white',
+    fontSize: 16,
+    fontFamily: fonts?.Inter?.regular,
+    fontWeight: '400'
   },
   text: {
     textAlign: 'justify',
@@ -53,5 +92,29 @@ export default createStyles((colors, fonts) => ({
     aspectRatio: 3 / 4,
     borderWidth: 0.5,
     borderColor: 'rgba(245.65, 245.65, 245.65, 0.20)'
+  },
+  block: {
+    marginTop: '16@s',
+    marginHorizontal: '6@s',
+    // padding: '4@s',
+    borderWidth: 0.5,
+    borderColor: 'rgb(48,64,96)'
+  },
+  shadow: {
+    margin: '15@s',
+
+    shadowColor: '#000000',
+    shadowOffset: {
+      width: 0,
+      height: 0
+    },
+    shadowOpacity: 1,
+    shadowRadius: 20,
+    elevation: 24,
+
+    borderRadius: '10@s',
+    borderColor: 'rgb(53,76,94)',
+    borderWidth: 0.5,
+    backgroundColor: '#020525'
   }
 }))

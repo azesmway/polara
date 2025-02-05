@@ -1,38 +1,13 @@
-import AppButton from 'components/ui/button'
 import React from 'react'
-import { View } from 'react-native'
+import { isMobile } from 'react-device-detect'
+import { Text, View } from 'react-native'
 import { s } from 'react-native-size-matters'
-import { useDispatch } from 'react-redux'
-import { setModalMore, setModalReservation } from 'store/data'
 
-const PolicyBlock = ({ modalView }: any) => {
+const PolicyBlock = ({ modalView, styles }: any) => {
   return (
-    <View style={{ marginTop: s(40), paddingHorizontal: s(20) }}>
-      <div
-        style={{
-          marginTop: s(10),
-          color: '#061A43',
-          fontSize: s(18),
-          fontFamily: 'Forum',
-          fontWeight: '400',
-          textTransform: 'uppercase',
-          wordWrap: 'break-word'
-        }}>
-        Политика конфиденциальности
-      </div>
-      <div
-        style={{
-          marginTop: s(20),
-          width: '100%',
-          opacity: 0.8,
-          textAlign: 'left',
-          color: '#061A43',
-          fontSize: s(12),
-          fontFamily: 'InterRegular',
-          fontWeight: '400',
-          wordWrap: 'break-word',
-          marginBottom: s(30)
-        }}>
+    <View style={{ marginTop: isMobile ? s(40) : s(10), paddingHorizontal: isMobile ? s(20) : s(15) }}>
+      <div style={styles.moduleName}>Политика конфиденциальности</div>
+      <div style={styles.moduleSubject}>
         1. Общие положения
         <br />
         <br />
@@ -116,8 +91,15 @@ const PolicyBlock = ({ modalView }: any) => {
         8.1. Пользователь может получить любые разъяснения по интересующим вопросам, касающимся обработки его персональных данных, обратившись к Оператору с помощью электронной почты
         almiracr.spb@gmail.com. <br />
         8.2. В данном документе будут отражены любые изменения политики обработки персональных данных Оператором. Политика действует бессрочно до замены ее новой версией. <br />
-        8.3. Актуальная версия Политики в свободном доступе расположена в сети Интернет по адресу <a href="https://almiracr.com/policy.html">https://almiracr.com/policy.html</a>
+        8.3. Актуальная версия Политики в свободном доступе расположена в сети Интернет по адресу
+        <a href="https://almiracr.com/policy.html">
+          <Text>
+            {' '}
+            <Text style={{ color: '#fff', textDecoration: 'underline', fontSize: s(5) }}>{'https://almiracr.com/policy.html'}</Text>
+          </Text>
+        </a>
       </div>
+      <View style={{ height: s(10) }} />
     </View>
   )
 }

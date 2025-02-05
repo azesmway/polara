@@ -13,7 +13,16 @@
 import { createStyles } from 'utils/createStyles'
 
 export default createStyles((colors, fonts) => ({
-  container: {
-    flex: 1
-  }
+  mainViewInSide: {
+    marginHorizontal: '27@s',
+    borderLeftWidth: 0.5,
+    borderLeftColor: 'rgb(48,64,96)',
+    borderRightWidth: 0.5,
+    borderRightColor: 'rgb(53,76,94)',
+    flexDirection: 'row'
+  },
+  mainViewInSideMob: {
+    flexDirection: 'row'
+  },
+  menu: { color: '#fff', fontFamily: fonts?.Forum?.regular, fontSize: 18 }
 }))
